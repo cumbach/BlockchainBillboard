@@ -1,6 +1,4 @@
-// import { default as Web3 } from 'web3';
-// import { default as contract } from 'truffle-contract';
-
+var web3 = window.web3;
 var pixels = {};
 
 // Calls on the contract to getCanvas and returns object of arrays
@@ -17,7 +15,6 @@ export const getCanvas = async (instance, account) => {
 
   return pixels;
 };
-
 // Calls getCanvas above
 const fetchPixels = (instance,account) => {
   getCanvas(instance, account).then(response => {
@@ -26,9 +23,16 @@ const fetchPixels = (instance,account) => {
     }
   })
 };
-
 // Calls fetchPixels above
 export const getPixels = async (instance, account) => {
   await fetchPixels(instance, account);
   return pixels;
+};
+
+
+
+// Calls on Contract to buyPixels
+export const buyPixels = async (instance, account, pixels) => {
+  const transactionId = await instance.buyPixels.sendTransaction(pixels[0], pixels[1], pixels[2], pixels[3], web3.toWei(pixels[4], 'ether'), {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876});
+  return transactionId;
 };

@@ -19,6 +19,8 @@ class ProjectsIndex extends React.Component {
 
     this.CanvasCore = contract(canvas_artifacts);
     this.handleContract = this.handleContract.bind(this)
+    this.buyPixels = this.buyPixels.bind(this)
+
   }
 
   componentWillMount(){
@@ -53,27 +55,39 @@ class ProjectsIndex extends React.Component {
     }
   }
 
+  // Takes an array of arrays/strings/numbers
+  buyPixels(pixels) {
+    this.CanvasCore.deployed().then(instance => {
+      const pixelIdsArray = [6, 9];
+      const colorsArray = [12, 249];
+      const url = 'link2';
+      const comment = 'comment2';
+      const priceEther = 0.42;
+      const totalCost = 2;
+
+      const pixelsTesting = [ pixelIdsArray, colorsArray, url, comment, priceEther, totalCost ];
+      return this.props.buyPixels(instance, this.props.accounts[0], pixelsTesting);
+    }).then(transactionId => {
+      console.log('buyPixels transaction posted (may take time to verify transaction)');
+    });
+  }
+
   render() {
     if (typeof this.state.pixels === 'object' && Object.values(this.state.pixels).length !== 0) {
-      const pixelsArr = Object.keys(this.state.pixels);
       console.log(this.state.pixels);
-      // console.log(pixelsArr);
+      const keysArr = Object.keys(this.state.pixels);
 
       return(
         <div className="projects-index-container">
 
           <div className="projects-index-header-container">
             <div className="projects-index-header">
-              {
-                pixelsArr.map(key => (
-                  <div key={key}>{key}: {this.state.pixels[key]}</div>
-                ))
-              }
+            <div onClick={this.buyPixels}>CLICK TO TEST BUY</div>
               Projects
             </div>
           </div>
             {
-              pixelsArr.map(property => (
+              keysArr.map(property => (
                 <ProjectIndexItem key={`index-${Math.floor(Math.random() * 1000)}`} project={property} />
               ))
             }
