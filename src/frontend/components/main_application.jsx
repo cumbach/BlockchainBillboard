@@ -9,7 +9,7 @@ import { default as contract } from 'truffle-contract';
 import canvas_artifacts from '../../../build/contracts/CanvasCore.json';
 
 
-class ProjectsIndex extends React.Component {
+class MainApplication extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,32 +92,12 @@ class ProjectsIndex extends React.Component {
   }
 
   render() {
-    if (false && typeof this.state.pixels === 'object' && Object.values(this.state.pixels).length !== 0) {
-      return(
-        <div className="projects-index-container">
-
-          <div className="projects-index-header-container">
-            <div className="projects-index-header">
-            <div onClick={this.buyPixels}>CLICK TO TEST BUY</div>
-              Projects
-            </div>
-          </div>
-
-          <div className="projects-index-list-container">
-            <ul className="projects-index-list">
-            </ul>
-          </div>
-
-        </div>
-      );
-    } else {
-      return (
-        <div className="canvas-container">
-          <ZoomController key={`index-${Math.floor(Math.random() * 1000)}`} pixelArray={this.state.pixelArray}/>
-        </div>
-      )
-    }
+    return (
+      <div className="canvas-container">
+        <ZoomController key={`index-${Math.floor(Math.random() * 1000)}`} pixelArray={this.state.pixelArray}/>
+      </div>
+    )
   }
 }
 
-export default ProjectsIndex;
+export default MainApplication;

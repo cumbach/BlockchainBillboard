@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { requestPixels, buyPixels } from '../actions/pixel_actions';
-import ProjectsIndex from './projects_index';
+import MainApplication from './main_application';
 
 const mapStateToProps = state => {
   return ({
@@ -19,4 +19,4 @@ const mapDispatchToProps = dispatch => ({
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProjectsIndex));
+)(MainApplication));

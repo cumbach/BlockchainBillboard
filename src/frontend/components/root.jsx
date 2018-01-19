@@ -7,12 +7,12 @@ import {
   // BrowserRouter
 } from 'react-router-dom';
 
-import ProjectsIndexContainer from './projects_index_container';
+import MainApplicationContainer from './main_application_container';
 
 
 const Root = () => (
   <div className="outer-main-container">
-      <Route exact path="/" component={ProjectsIndexContainer} />
+      <Route exact path="/" component={MainApplicationContainer} />
   </div>
 );
 
