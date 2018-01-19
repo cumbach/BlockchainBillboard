@@ -17,6 +17,7 @@ class ProjectsIndex extends React.Component {
       instance: null
     };
 
+    this.CanvasCore = contract(canvas_artifacts);
     this.handleContract = this.handleContract.bind(this)
   }
 
@@ -28,15 +29,13 @@ class ProjectsIndex extends React.Component {
     window.setTimeout(this.handleContract, 1500)
   }
 
-
   handleContract(){
     const self = this;
     if (this.state.instance !== null) {
       this.props.requestPixels(this.state.instance, this.props.accounts[0])
     } else if (this.props.web3 !== null) {
-      var FundEth = contract(canvas_artifacts);
-      FundEth.setProvider(this.props.web3.currentProvider);
-      FundEth.deployed().then((instance) => {
+      this.CanvasCore.setProvider(this.props.web3.currentProvider);
+      this.CanvasCore.deployed().then((instance) => {
         this.setState(instance: instance)
         this.props.requestPixels(instance, this.props.accounts[0]).then(function(result){
           self.setState({ 'pixels': result.pixels });
@@ -45,14 +44,7 @@ class ProjectsIndex extends React.Component {
     }
   }
 
-  componentWillUpdate() {
-  }
-  componentDidUpdate() {
-  }
-
-
   componentWillReceiveProps(newProps) {
-
     if (newProps.pixels && this.state.pixels !== newProps.pixels) {
       this.setState({pixels: newProps.pixels});
     } else if (newProps.web3 !== undefined) {
@@ -64,7 +56,7 @@ class ProjectsIndex extends React.Component {
   render() {
     if (typeof this.state.pixels === 'object' && Object.values(this.state.pixels).length !== 0) {
       const pixelsArr = Object.keys(this.state.pixels);
-      // console.log(this.state.pixels);
+      console.log(this.state.pixels);
       // console.log(pixelsArr);
 
       return(
@@ -72,10 +64,15 @@ class ProjectsIndex extends React.Component {
 
           <div className="projects-index-header-container">
             <div className="projects-index-header">
+              {
+                pixelsArr.map(key => (
+                  <div key={key}>{key}: {this.state.pixels[key]}</div>
+                ))
+              }
               Projects
             </div>
           </div>
-          {
+            {
               pixelsArr.map(property => (
                 <ProjectIndexItem key={`index-${Math.floor(Math.random() * 1000)}`} project={property} />
               ))
