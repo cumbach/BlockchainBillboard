@@ -1,0 +1,9 @@
+.zoom-controller {
+  position:absolute;
+  left: 100px;
+  top: 50px;
+}
+
+.camera-controller {
+  position:relative;
+}

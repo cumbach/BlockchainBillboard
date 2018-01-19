@@ -1,6 +1,6 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import ProjectIndexItem from './project_index_item';
+import Canvas from './canvas';
 // import { Link } from 'react-router-dom';
 import { default as contract } from 'truffle-contract';
 
@@ -73,7 +73,7 @@ class ProjectsIndex extends React.Component {
   }
 
   render() {
-    if (typeof this.state.pixels === 'object' && Object.values(this.state.pixels).length !== 0) {
+    if (false && typeof this.state.pixels === 'object' && Object.values(this.state.pixels).length !== 0) {
       console.log(this.state.pixels);
       const keysArr = Object.keys(this.state.pixels);
 
@@ -88,7 +88,7 @@ class ProjectsIndex extends React.Component {
           </div>
             {
               keysArr.map(property => (
-                <ProjectIndexItem key={`index-${Math.floor(Math.random() * 1000)}`} project={property} />
+                <Canvas key={`index-${Math.floor(Math.random() * 1000)}`} project={property} />
               ))
             }
           <div className="projects-index-list-container">
@@ -99,7 +99,11 @@ class ProjectsIndex extends React.Component {
         </div>
       );
     } else {
-      return null;
+      return (
+        <div className="canvas-container">
+          <Canvas key={`index-${Math.floor(Math.random() * 1000)}`} />
+        </div>
+      )
     }
   }
 }
