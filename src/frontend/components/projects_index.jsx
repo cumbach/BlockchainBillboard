@@ -30,6 +30,7 @@ class ProjectsIndex extends React.Component {
 
 
   handleContract(){
+    const self = this;
     if (this.state.instance !== null) {
       this.props.requestPixels(this.state.instance, this.props.accounts[0])
     } else if (this.props.web3 !== null) {
@@ -37,14 +38,22 @@ class ProjectsIndex extends React.Component {
       FundEth.setProvider(this.props.web3.currentProvider);
       FundEth.deployed().then((instance) => {
         this.setState(instance: instance)
-        this.props.requestPixels(instance, this.props.accounts[0])
+        this.props.requestPixels(instance, this.props.accounts[0]).then(function(result){
+          self.setState({ 'pixels': result.pixels });
+        })
       })
     }
   }
 
+  componentWillUpdate() {
+  }
+  componentDidUpdate() {
+  }
+
 
   componentWillReceiveProps(newProps) {
-    if (this.state.pixels !== newProps.pixels) {
+
+    if (newProps.pixels && this.state.pixels !== newProps.pixels) {
       this.setState({pixels: newProps.pixels});
     } else if (newProps.web3 !== undefined) {
       this.setState( {web3: newProps.web3})
@@ -53,9 +62,11 @@ class ProjectsIndex extends React.Component {
   }
 
   render() {
-    if (this.state.pixels && Object.values(this.state.pixels).length !== 0) {
-      const pixelsArr = Object.values(this.state.pixels);
-      console.log(pixelsArr)
+    if (typeof this.state.pixels === 'object' && Object.values(this.state.pixels).length !== 0) {
+      const pixelsArr = Object.keys(this.state.pixels);
+      // console.log(this.state.pixels);
+      // console.log(pixelsArr);
+
       return(
         <div className="projects-index-container">
 
@@ -66,7 +77,7 @@ class ProjectsIndex extends React.Component {
           </div>
           {
               pixelsArr.map(property => (
-                <ProjectIndexItem key={`index-${Math.floor(Math.random() * 100)}`} project={property} />
+                <ProjectIndexItem key={`index-${Math.floor(Math.random() * 1000)}`} project={property} />
               ))
             }
           <div className="projects-index-list-container">
