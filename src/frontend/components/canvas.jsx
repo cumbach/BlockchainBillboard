@@ -19,10 +19,13 @@ class Canvas extends React.Component {
     this.bindKeyHandlers = this.bindKeyHandlers.bind(this)
     this.setKey = this.setKey.bind(this)
     this.moveCamera = this.moveCamera.bind(this)
-
+    this.controlZoom = this.controlZoom.bind(this)
   }
 
   componentWillMount(){
+    this.left = 0;
+    this.top = 0;
+    this.scale = 1;
     this.bindKeyHandlers();
     // this.handleContract();
   }
@@ -42,6 +45,7 @@ class Canvas extends React.Component {
   setKey(event, status) {
     var code = event.keyCode;
     var key;
+    console.log(code);
 
     switch(code) {
     case 37:
@@ -52,11 +56,38 @@ class Canvas extends React.Component {
         key = 'right'; break;
     case 40:
         key = 'down'; break;
+    case 81:
+        key = 'Q'; break;
+    case 87:
+        key = 'W'; break;
     default:
         key = String.fromCharCode(code);
     }
     this.pressedKeys[key] = status;
     this.moveCamera();
+    this.controlZoom();
+  }
+
+  controlZoom() {
+    const zoom = $('.zoom-controller').eq(0);
+    const keyButtons = Object.keys(this.pressedKeys);
+    for (var i = 0; i < keyButtons.length; i++) {
+      if (this.pressedKeys[keyButtons[i]]) {
+        console.log(keyButtons[i]);
+        switch(keyButtons[i]) {
+          case 'Q':
+            this.scale += .1;
+            zoom.css('transform', 'scale(' + this.scale + ')');
+            break;
+          case 'W':
+            this.scale -= .1;
+            zoom.css('transform', 'scale(' + this.scale + ')');
+            break;
+          default:
+            return;
+        }
+      }
+    }
   }
 
   moveCamera() {
@@ -65,7 +96,26 @@ class Canvas extends React.Component {
     for (var i = 0; i < keyButtons.length; i++) {
       if (this.pressedKeys[keyButtons[i]]) {
         console.log(keyButtons[i]);
-        camera.css(keyButtons[i], '100px')
+        switch(keyButtons[i]) {
+          case 'left':
+            this.left -= 5;
+            camera.css('left', this.left+'px');
+            break;
+          case 'right':
+            this.left += 5;
+            camera.css('left', this.left+'px');
+            break;
+          case 'up':
+            this.top -= 5;
+            camera.css('top', this.top+'px');
+            break;
+          case 'down':
+            this.top += 5;
+            camera.css('top', this.top+'px');
+            break;
+          default:
+            return;
+        }
       }
     }
   }
