@@ -1,6 +1,6 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import Canvas from './canvas';
+import ZoomController from './board/zoom_controller';
 // import { Link } from 'react-router-dom';
 import { default as contract } from 'truffle-contract';
 
@@ -14,13 +14,31 @@ class ProjectsIndex extends React.Component {
     super(props);
     this.state = {
       pixels: {},
-      instance: null
+      instance: null,
+      pixelArray: []
     };
 
     this.CanvasCore = contract(canvas_artifacts);
     this.handleContract = this.handleContract.bind(this)
     this.buyPixels = this.buyPixels.bind(this)
+    this.createPixelArray = this.createPixelArray.bind(this)
+    this.sideLength = 500;
 
+
+  }
+
+  createPixelArray() {
+    let result = [];
+    for (var i = 0; i < this.sideLength; i++) {
+      for (var j = 0; j < this.sideLength; j++) {
+        let r = Math.floor(Math.random() * 255);
+        let g = Math.floor(Math.random() * 255);
+        let b = Math.floor(Math.random() * 255);
+        let color = 'rgb(' + r + ',' + g + ',' + b + ')';
+        result.push([i, j, color]);
+      }
+    }
+    this.setState({'pixelArray': result})
   }
 
   componentWillMount(){
@@ -28,6 +46,7 @@ class ProjectsIndex extends React.Component {
   }
 
   componentDidMount() {
+    window.setTimeout(this.createPixelArray, 1500)
     window.setTimeout(this.handleContract, 1500)
   }
 
@@ -74,9 +93,6 @@ class ProjectsIndex extends React.Component {
 
   render() {
     if (false && typeof this.state.pixels === 'object' && Object.values(this.state.pixels).length !== 0) {
-      console.log(this.state.pixels);
-      const keysArr = Object.keys(this.state.pixels);
-
       return(
         <div className="projects-index-container">
 
@@ -86,11 +102,7 @@ class ProjectsIndex extends React.Component {
               Projects
             </div>
           </div>
-            {
-              keysArr.map(property => (
-                <Canvas key={`index-${Math.floor(Math.random() * 1000)}`} project={property} />
-              ))
-            }
+
           <div className="projects-index-list-container">
             <ul className="projects-index-list">
             </ul>
@@ -101,7 +113,7 @@ class ProjectsIndex extends React.Component {
     } else {
       return (
         <div className="canvas-container">
-          <Canvas key={`index-${Math.floor(Math.random() * 1000)}`} />
+          <ZoomController key={`index-${Math.floor(Math.random() * 1000)}`} pixelArray={this.state.pixelArray}/>
         </div>
       )
     }
