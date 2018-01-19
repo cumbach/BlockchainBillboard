@@ -42,12 +42,12 @@ class ProjectsIndex extends React.Component {
   }
 
   componentWillMount(){
-    this.handleContract();
+    // this.handleContract();
   }
 
   componentDidMount() {
     window.setTimeout(this.createPixelArray, 1500)
-    window.setTimeout(this.handleContract, 1500)
+    // window.setTimeout(this.handleContract, 1500)
   }
 
   handleContract(){

@@ -9,6 +9,7 @@ class ZoomController extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      scale: 1
       // pixels: {},
       // instance: null
     };
@@ -17,7 +18,7 @@ class ZoomController extends React.Component {
     this.setKey = this.setKey.bind(this)
     this.controlZoom = this.controlZoom.bind(this)
     this.scale = 1;
-
+    this.pressedKeys = {};
   }
 
   componentWillMount(){
@@ -27,15 +28,14 @@ class ZoomController extends React.Component {
 
   bindKeyHandlers() {
     const self = this;
-    this.pressedKeys = {};
-    document.addEventListener('keydown', function(e) {
+    $('html').keydown(function(e){
       self.setKey(e, true);
     });
-
-    document.addEventListener('keyup', function(e) {
+    $('html').keyup(function(e){
       self.setKey(e, false);
     });
   }
+
 
   setKey(event, status) {
     var code = event.keyCode;
@@ -60,11 +60,11 @@ class ZoomController extends React.Component {
       if (this.pressedKeys[keyButtons[i]]) {
         switch(keyButtons[i]) {
           case 'Q':
-            this.scale += .1;
+            this.scale += .2;
             zoom.css('transform', 'scale(' + this.scale + ')');
             break;
           case 'W':
-            this.scale -= .1;
+            this.scale -= .2;
             zoom.css('transform', 'scale(' + this.scale + ')');
             break;
           default:
@@ -72,12 +72,13 @@ class ZoomController extends React.Component {
         }
       }
     }
+    this.setState({'scale': this.scale});
   }
 
   render() {
     return (
       <div className="zoom-controller">
-        <CameraController pixelArray={this.props.pixelArray}/>
+        <CameraController pixelArray={this.props.pixelArray} scale={this.state.scale}/>
       </div>
     );
   }

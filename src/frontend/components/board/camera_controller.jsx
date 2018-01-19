@@ -18,6 +18,7 @@ class CameraController extends React.Component {
     this.moveCamera = this.moveCamera.bind(this)
     this.left = 0;
     this.top = 0;
+    this.pressedKeys = {};
   }
 
   componentWillMount(){
@@ -27,12 +28,10 @@ class CameraController extends React.Component {
 
   bindKeyHandlers() {
     const self = this;
-    this.pressedKeys = {};
-    document.addEventListener('keydown', function(e) {
+    $('html').keydown(function(e){
       self.setKey(e, true);
     });
-
-    document.addEventListener('keyup', function(e) {
+    $('html').keyup(function(e){
       self.setKey(e, false);
     });
   }
@@ -65,19 +64,19 @@ class CameraController extends React.Component {
       if (this.pressedKeys[keyButtons[i]]) {
         switch(keyButtons[i]) {
           case 'left':
-            this.left -= 5;
-            camera.css('left', this.left+'px');
-            break;
-          case 'right':
             this.left += 5;
             camera.css('left', this.left+'px');
             break;
+          case 'right':
+            this.left -= 5;
+            camera.css('left', this.left+'px');
+            break;
           case 'up':
-            this.top -= 5;
+            this.top += 5;
             camera.css('top', this.top+'px');
             break;
           case 'down':
-            this.top += 5;
+            this.top -= 5;
             camera.css('top', this.top+'px');
             break;
           default:
@@ -90,7 +89,7 @@ class CameraController extends React.Component {
   render() {
     return (
       <div className="camera-controller">
-        <Canvas pixelArray={this.props.pixelArray}/>
+        <Canvas pixelArray={this.props.pixelArray} scale={this.props.scale}/>
       </div>
     );
   }

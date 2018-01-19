@@ -1,11 +1,10 @@
 body, html {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .zoom-controller {
   position:absolute;
-  left: 100px;
-  top: 50px;
 }
 
 .camera-controller {
