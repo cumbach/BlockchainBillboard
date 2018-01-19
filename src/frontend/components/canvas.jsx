@@ -3,9 +3,6 @@ import $ from "jquery";
 // import ReactDOM from 'react-dom';
 // import { Link } from 'react-router-dom';
 
-// props:
-// this.props.project: JSON of projects data which includes id, title,
-//  description, and imageUrl
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
@@ -20,15 +17,36 @@ class Canvas extends React.Component {
     this.setKey = this.setKey.bind(this)
     this.moveCamera = this.moveCamera.bind(this)
     this.controlZoom = this.controlZoom.bind(this)
-  }
-
-  componentWillMount(){
+    this.createPixelArray = this.createPixelArray.bind(this)
+    this.sideLength = 500;
     this.left = 0;
     this.top = 0;
     this.scale = 1;
-    this.bindKeyHandlers();
-    // this.handleContract();
+
+    this.createPixelArray();
   }
+
+  componentWillMount(){
+    this.bindKeyHandlers();
+  }
+
+  createPixelArray() {
+    if (this.pixelArray) {
+      return;
+    } else {
+      this.pixelArray = [];
+    }
+    for (var i = 0; i < this.sideLength; i++) {
+      for (var j = 0; j < this.sideLength; j++) {
+        let r = Math.floor(Math.random() * 255);
+        let g = Math.floor(Math.random() * 255);
+        let b = Math.floor(Math.random() * 255);
+        let color = 'rgb(' + r + ',' + g + ',' + b + ')';
+        this.pixelArray.push([i, j, color]);
+      }
+    }
+  }
+
 
   bindKeyHandlers() {
     const self = this;
@@ -123,29 +141,37 @@ class Canvas extends React.Component {
   componentDidMount() {
     this.canvas = document.getElementsByTagName('canvas')[0];
     this.ctx = this.canvas.getContext('2d');
+    this.ctx.mozImageSmoothingEnabled = false;
+    this.ctx.webkitImageSmoothingEnabled = false;
+    this.ctx.msImageSmoothingEnabled = false;
+    this.ctx.imageSmoothingEnabled = false;
+    this.animate();
   }
 
   animate() {
-    this.ctx.clearRect(0, 0, 500, 500);
-    // step
-    // draw
+    this.ctx.clearRect(0, 0, this.sideLength, this.sideLength);
+
     this.draw();
-    requestAnimationFrame(this.animate.bind(this));
+    // requestAnimationFrame(this.animate.bind(this));
   }
 
   draw() {
-    this.ctx.fillStyle = 'black';
-    this.ctx.fillRect(0, 0, 500, 500);
-    this.ctx.fillStyle = 'red';
-    this.ctx.fillRect(10, 10, 20, 20);
+    // this.ctx.fillStyle = 'black';
+    // this.ctx.fillRect(0, 0, 500, 500);
+    // this.ctx.fillStyle = 'red';
+    // this.ctx.fillRect(10, 10, 1, 1);
+    for (var i = 0; i < this.pixelArray.length; i++) {
+      this.ctx.fillStyle = this.pixelArray[i][2];
+      let x = this.pixelArray[i][0];
+      let y = this.pixelArray[i][1];
+      this.ctx.fillRect(x, y, 1, 1);
+    }
   }
 
-
   render() {
-    return(
+    return (
       <div className="zoom-controller">
         <div className="camera-controller">
-          <div onClick={this.animate.bind(this)}>Testing</div>
           <canvas width="500" height="500"></canvas>
         </div>
       </div>

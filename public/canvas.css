@@ -11,3 +11,13 @@ body, html {
 .camera-controller {
   position:relative;
 }
+
+canvas {
+    -ms-interpolation-mode: bicubic;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges; /* so crisp */
+    image-rendering: pixelated;
+    background-color: white;
+    display: block;
+}
