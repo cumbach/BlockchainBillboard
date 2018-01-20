@@ -1,6 +1,7 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import ZoomController from './board/zoom_controller';
+import NavBar from './other/nav_bar';
 // import { Link } from 'react-router-dom';
 import { default as contract } from 'truffle-contract';
 
@@ -94,6 +95,7 @@ class MainApplication extends React.Component {
   render() {
     return (
       <div className="canvas-container">
+        <NavBar/>
         <ZoomController key={`index-${Math.floor(Math.random() * 1000)}`} pixelArray={this.state.pixelArray}/>
       </div>
     )

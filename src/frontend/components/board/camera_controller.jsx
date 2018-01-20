@@ -21,7 +21,7 @@ class CameraController extends React.Component {
     this.pressedKeys = {};
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.bindKeyHandlers();
   }
 

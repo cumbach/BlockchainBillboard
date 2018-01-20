@@ -21,7 +21,7 @@ class ZoomController extends React.Component {
     this.pressedKeys = {};
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.bindKeyHandlers();
   }
 
@@ -61,10 +61,12 @@ class ZoomController extends React.Component {
         switch(keyButtons[i]) {
           case 'Q':
             this.scale += .2;
+            this.setState({'scale': this.scale});
             zoom.css('transform', 'scale(' + this.scale + ')');
             break;
           case 'W':
             this.scale -= .2;
+            this.setState({'scale': this.scale});
             zoom.css('transform', 'scale(' + this.scale + ')');
             break;
           default:
@@ -72,7 +74,6 @@ class ZoomController extends React.Component {
         }
       }
     }
-    this.setState({'scale': this.scale});
   }
 
   render() {
