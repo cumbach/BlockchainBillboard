@@ -78,19 +78,10 @@ class Canvas extends React.Component {
   }
 
   draw() {
-    // this.ctx.fillStyle = 'black';
-    // this.ctx.fillRect(0, 0, 500, 500);
-    // this.ctx.fillStyle = 'red';
-    // this.ctx.fillRect(10, 10, 1, 1);
-
     const clampedArrayLength = this.sideLength ** 2 * 4;
     let clampedArray = new Uint8ClampedArray(clampedArrayLength);
 
     for (var i = 0; i < this.props.pixelArray.length; i++) {
-    //   this.ctx.fillStyle = this.props.pixelArray[i][2];
-    //   let x = this.props.pixelArray[i][0];
-    //   let y = this.props.pixelArray[i][1];
-    //   this.ctx.fillRect(x, y, 1, 1);
       for (var j = 0; j < 4; j++) {
         // Go through each pixel and add its component colors to the clamped array
         clampedArray[(i*4) + j] = this.props.pixelArray[i][2][j];
