@@ -1,0 +1,8 @@
+.panel-container {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 200px;
+  background: rgba(0,0,0,0.3);
+  z-index: 1000;
+}

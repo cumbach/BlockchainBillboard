@@ -1,4 +1,6 @@
 .navbar {
+  position: relative;
   height: 30px;
   background: grey;
+  z-index: 1000;
 }
