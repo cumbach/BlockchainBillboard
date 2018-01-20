@@ -5,7 +5,7 @@ import MainApplication from './main_application';
 
 const mapStateToProps = state => {
   return ({
-    pixels: state.projects,
+    pixels: state.pixels,
     web3: state.web3,
     accounts: state.accounts
   });
