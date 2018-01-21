@@ -11,11 +11,11 @@ class BuyContainer extends React.Component {
   render() {
     return (
       <div className='action-container buy-container'>
-        <SelectedPixels selectedPixels={this.props.selectedPixels.draw}/>
+        BUY
+        <SelectedPixels selectedPixels={this.props.selectedPixels}/>
         <CommentLinkField/>
         <TabulatedCosts/>
         <ActionButton/>
-        Buy
       </div>
     );
   }

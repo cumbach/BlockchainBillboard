@@ -16,7 +16,7 @@ class PanelContainer extends React.Component {
     };
 
     this.currentDisplayedTab = this.currentDisplayedTab.bind(this)
-    this.changeSelectedTab = this.changeSelectedTab.bind(this)
+    // this.changeSelectedTab = this.changeSelectedTab.bind(this)
     // this.animate = this.animate.bind(this)
     // this.handleClick = this.handleClick.bind(this)
     // this.getPositions = this.getPositions.bind(this)
@@ -24,16 +24,16 @@ class PanelContainer extends React.Component {
     this.sideLength = 500;
   }
 
-  changeSelectedTab(tab) {
-    console.log(tab);
-    this.setState({'currentTab': tab});
-  }
+  // changeSelectedTab(tab) {
+  //   console.log(tab);
+  //   this.setState({'currentTab': tab});
+  // }
 
   currentDisplayedTab() {
     return (
       <div className='current-displayed-action'>
         {(() => {
-          switch(this.state.currentTab) {
+          switch(this.props.currentTab) {
             case 'draw':
               return <DrawContainer
                         selectedPixels={this.props.selectedPixels.draw}/>;
@@ -58,7 +58,7 @@ class PanelContainer extends React.Component {
   render() {
     return (
       <div className='panel-container'>
-        <TabSelectionContainer changeSelectedTab={this.changeSelectedTab}/>
+        <TabSelectionContainer changeSelectedTab={this.props.changeSelectedTab}/>
         {this.currentDisplayedTab()}
       </div>
     );

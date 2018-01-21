@@ -17,13 +17,18 @@ class MainApplication extends React.Component {
     this.state = {
       pixels: {},
       instance: null,
-      pixelArray: []
+      pixelArray: [],
+      currentTab: 'draw',
     };
 
     this.CanvasCore = contract(canvas_artifacts);
     this.handleContract = this.handleContract.bind(this)
     this.buyPixels = this.buyPixels.bind(this)
     this.createPixelArray = this.createPixelArray.bind(this)
+    this.changeSelectedTab = this.changeSelectedTab.bind(this)
+    this.pixelAddingSelection = this.pixelAddingSelection.bind(this)
+
+
     this.sideLength = 500;
 
 
@@ -94,16 +99,41 @@ class MainApplication extends React.Component {
     });
   }
 
+  changeSelectedTab(tab) {
+    this.setState({'currentTab': tab})
+  }
+
+  pixelAddingSelection(pixel) {
+    switch(this.state.currentTab) {
+      case 'draw':
+        this.props.addPixelDraw(pixel);
+        break;
+      case 'buy':
+        this.props.addPixelBuy(pixel);
+        break;
+      case 'rent':
+        this.props.addPixelRent(pixel);
+        break;
+      case 'manage':
+        // this.props.addPixelManage(pixel);
+        break;
+      default:
+      return null;
+    }
+  }
+
   render() {
-    // console.log(this.props.selectedPixels);
+    console.log(this.props.selectedPixels);
     return (
       <div className="canvas-container">
         <NavBar/>
         <ZoomController
           key={`index-${Math.floor(Math.random() * 1000)}`}
           pixelArray={this.state.pixelArray}
-          addSelectedPixels={this.props.addPixelDraw}/>
+          addSelectedPixels={this.pixelAddingSelection}/>
         <PanelContainer
+          currentTab={this.state.currentTab}
+          changeSelectedTab={this.changeSelectedTab}
           selectedPixels={this.props.selectedPixels}
         />
       </div>

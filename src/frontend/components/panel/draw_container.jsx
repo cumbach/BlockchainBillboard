@@ -12,6 +12,7 @@ class DrawContainer extends React.Component {
   render() {
     return (
       <div className='action-container draw-container'>
+        DRAW
         <SelectedPixels selectedPixels={this.props.selectedPixels}/>
         <CommentLinkField/>
         <TabulatedCosts/>
