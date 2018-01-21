@@ -53,17 +53,20 @@ class Canvas extends React.Component {
         let horizontalMatch = self.comparePositions(pos[0], pos2[0]);
         let verticalMatch = self.comparePositions(pos[1], pos2[1]);
         if (horizontalMatch && verticalMatch) {
-            console.log(self.props.pixelArray[i]);
-            return;
+          self.props.addSelectedPixels(self.props.pixelArray[i])
+          console.log(self.props.pixelArray[i]);
+          return;
         }
       }
     });
   }
 
+  // Called from handleClick
   getPositions(item) {
     return [[item.Left, item.Left + item.Width], [item.Top, item.Top + item.Height]];
   }
 
+  // Called from handleClick
   comparePositions(p1, p2) {
       let x1 = p1[0] < p2[0] ? p1 : p2;
       let x2 = p1[0] < p2[0] ? p2 : p1;
@@ -78,8 +81,8 @@ class Canvas extends React.Component {
   }
 
   draw() {
-    const clampedArrayLength = this.sideLength ** 2 * 4;
-    let clampedArray = new Uint8ClampedArray(clampedArrayLength);
+    const clampedArrayLength = (this.sideLength ** 2) * 4;
+    const clampedArray = new Uint8ClampedArray(clampedArrayLength);
 
     for (var i = 0; i < this.props.pixelArray.length; i++) {
       for (var j = 0; j < 4; j++) {

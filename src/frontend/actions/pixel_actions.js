@@ -1,16 +1,23 @@
 import * as ProjectUtil from '../util/projectUtil';
 
 export const RECEIVE_PIXELS = "RECEIVE_PIXELS";
-export const ADD_PIXELS = "ADD_PIXELS";
+export const PURCHASE_PIXELS = "PURCHASE_PIXELS";
+export const ADD_PIXELS_DRAW = "ADD_PIXELS_DRAW";
+
 
 export const receivePixels = pixels => ({
   type: RECEIVE_PIXELS,
   pixels
 });
 
-export const addPixels = pixels => ({
-  type: ADD_PIXELS,
+export const purchasePixels = pixels => ({
+  type: PURCHASE_PIXELS,
   pixels
+});
+
+export const addDrawSelected = selectedPixelsDraw => ({
+  type: ADD_PIXELS_DRAW,
+  selectedPixelsDraw
 });
 
 
@@ -21,5 +28,8 @@ export const requestPixels = (instance, account) => dispatch => (
 
 export const buyPixels = (instance, account, pixels) => dispatch => (
   ProjectUtil.buyPixels(instance, account, pixels)
-  .then(pixels => dispatch(addPixels(pixels)))
+);
+
+export const addSelectedPixelDraw = (selectedPixel) => dispatch => (
+  dispatch(addDrawSelected(selectedPixel))
 );

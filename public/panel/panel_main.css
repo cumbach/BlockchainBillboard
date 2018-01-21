@@ -2,7 +2,31 @@
   position: absolute;
   right: 0;
   height: 100%;
-  width: 200px;
-  background: rgba(0,0,0,0.3);
+  width: 400px;
+  background: rgba(0,0,0,0.1);
   z-index: 1000;
+
+}
+
+.tab-selection-container {
+  height: 150px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid orange;
+}
+
+.tab-selection-container .action-tab {
+  width: 90px;
+  float: left;
+  height: 100px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid blue;
+}
+
+.current-displayed-action {
+  height: 100%
+}
+
+.current-displayed-action .action-container {
+  background: yellow;
+  height: 100%;
 }

@@ -95,11 +95,17 @@ class MainApplication extends React.Component {
   }
 
   render() {
+    // console.log(this.props.selectedPixels);
     return (
       <div className="canvas-container">
         <NavBar/>
-        <ZoomController key={`index-${Math.floor(Math.random() * 1000)}`} pixelArray={this.state.pixelArray}/>
-        <PanelContainer/>
+        <ZoomController
+          key={`index-${Math.floor(Math.random() * 1000)}`}
+          pixelArray={this.state.pixelArray}
+          addSelectedPixels={this.props.addPixelDraw}/>
+        <PanelContainer
+          selectedPixels={this.props.selectedPixels}
+        />
       </div>
     )
   }

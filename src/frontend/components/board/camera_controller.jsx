@@ -62,21 +62,22 @@ class CameraController extends React.Component {
     const keyButtons = Object.keys(this.pressedKeys);
     for (var i = 0; i < keyButtons.length; i++) {
       if (this.pressedKeys[keyButtons[i]]) {
+        const movementSpeed = (5/this.props.scale > 1) ? 5/this.props.scale : 1;
         switch(keyButtons[i]) {
           case 'left':
-            this.left += 5;
+            this.left += movementSpeed;
             camera.css('left', this.left+'px');
             break;
           case 'right':
-            this.left -= 5;
+            this.left -= movementSpeed;
             camera.css('left', this.left+'px');
             break;
           case 'up':
-            this.top += 5;
+            this.top += movementSpeed;
             camera.css('top', this.top+'px');
             break;
           case 'down':
-            this.top -= 5;
+            this.top -= movementSpeed;
             camera.css('top', this.top+'px');
             break;
           default:
@@ -89,7 +90,10 @@ class CameraController extends React.Component {
   render() {
     return (
       <div className="camera-controller">
-        <Canvas pixelArray={this.props.pixelArray} scale={this.props.scale}/>
+        <Canvas
+          pixelArray={this.props.pixelArray}
+          scale={this.props.scale}
+          addSelectedPixels={this.props.addSelectedPixels}/>
       </div>
     );
   }

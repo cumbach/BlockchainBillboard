@@ -60,12 +60,12 @@ class ZoomController extends React.Component {
       if (this.pressedKeys[keyButtons[i]]) {
         switch(keyButtons[i]) {
           case 'Q':
-            this.scale += .2;
+            this.scale *= 1.2;
             this.setState({'scale': this.scale});
             zoom.css('transform', 'scale(' + this.scale + ')');
             break;
           case 'W':
-            this.scale -= .2;
+            this.scale *= .8;
             this.setState({'scale': this.scale});
             zoom.css('transform', 'scale(' + this.scale + ')');
             break;
@@ -79,7 +79,10 @@ class ZoomController extends React.Component {
   render() {
     return (
       <div className="zoom-controller">
-        <CameraController pixelArray={this.props.pixelArray} scale={this.state.scale}/>
+        <CameraController
+          pixelArray={this.props.pixelArray}
+          scale={this.state.scale}
+          addSelectedPixels={this.props.addSelectedPixels}/>
       </div>
     );
   }
