@@ -16,6 +16,7 @@ class CameraController extends React.Component {
     this.bindKeyHandlers = this.bindKeyHandlers.bind(this)
     this.setKey = this.setKey.bind(this)
     this.moveCamera = this.moveCamera.bind(this)
+    this.moveCameraToCurrentPosition = this.moveCameraToCurrentPosition.bind(this)
     this.left = 0;
     this.top = 0;
     this.pressedKeys = {};
@@ -23,6 +24,17 @@ class CameraController extends React.Component {
 
   componentDidMount(){
     this.bindKeyHandlers();
+    this.moveCameraToCurrentPosition();
+  }
+
+  moveCameraToCurrentPosition() {
+    const camera = $('.camera-controller').eq(0);
+    camera.css('left', this.props.position[0]+'px');
+    camera.css('top', this.props.position[1]+'px');
+  }
+
+  componentWillUnmount() {
+    $('html').off();
   }
 
 
@@ -58,27 +70,22 @@ class CameraController extends React.Component {
 
 
   moveCamera() {
-    const camera = $('.camera-controller').eq(0);
     const keyButtons = Object.keys(this.pressedKeys);
     for (var i = 0; i < keyButtons.length; i++) {
       if (this.pressedKeys[keyButtons[i]]) {
-        const movementSpeed = (5/this.props.scale > 1) ? 5/this.props.scale : 1;
+        const movementSpeed = (5/this.props.scale > 1) ? (5/this.props.scale) : 1;
         switch(keyButtons[i]) {
           case 'left':
-            this.left += movementSpeed;
-            camera.css('left', this.left+'px');
+            this.props.adjustCameraPosition('left', movementSpeed)
             break;
           case 'right':
-            this.left -= movementSpeed;
-            camera.css('left', this.left+'px');
+            this.props.adjustCameraPosition('left', -movementSpeed)
             break;
           case 'up':
-            this.top += movementSpeed;
-            camera.css('top', this.top+'px');
+            this.props.adjustCameraPosition('top', movementSpeed)
             break;
           case 'down':
-            this.top -= movementSpeed;
-            camera.css('top', this.top+'px');
+            this.props.adjustCameraPosition('top', -movementSpeed)
             break;
           default:
             return;

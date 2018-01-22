@@ -12,22 +12,10 @@ class PanelContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'draw',
     };
 
     this.currentDisplayedTab = this.currentDisplayedTab.bind(this)
-    // this.changeSelectedTab = this.changeSelectedTab.bind(this)
-    // this.animate = this.animate.bind(this)
-    // this.handleClick = this.handleClick.bind(this)
-    // this.getPositions = this.getPositions.bind(this)
-    // this.comparePositions = this.comparePositions.bind(this)
-    this.sideLength = 500;
   }
-
-  // changeSelectedTab(tab) {
-  //   console.log(tab);
-  //   this.setState({'currentTab': tab});
-  // }
 
   currentDisplayedTab() {
     return (

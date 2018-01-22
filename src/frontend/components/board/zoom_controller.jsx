@@ -9,7 +9,6 @@ class ZoomController extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      scale: 1
       // pixels: {},
       // instance: null
     };
@@ -17,12 +16,22 @@ class ZoomController extends React.Component {
     this.bindKeyHandlers = this.bindKeyHandlers.bind(this)
     this.setKey = this.setKey.bind(this)
     this.controlZoom = this.controlZoom.bind(this)
-    this.scale = 1;
+    this.zoomToCurrentScale = this.zoomToCurrentScale.bind(this)
     this.pressedKeys = {};
   }
 
   componentDidMount(){
     this.bindKeyHandlers();
+    this.zoomToCurrentScale();
+  }
+
+  zoomToCurrentScale() {
+    const zoom = $('.zoom-controller').eq(0);
+    zoom.css('transform', 'scale(' + this.props.scale + ')');
+  }
+
+  componentWillUnmount() {
+    $('html').off();
   }
 
 
@@ -54,20 +63,15 @@ class ZoomController extends React.Component {
   }
 
   controlZoom() {
-    const zoom = $('.zoom-controller').eq(0);
     const keyButtons = Object.keys(this.pressedKeys);
     for (var i = 0; i < keyButtons.length; i++) {
       if (this.pressedKeys[keyButtons[i]]) {
         switch(keyButtons[i]) {
           case 'Q':
-            this.scale *= 1.2;
-            this.setState({'scale': this.scale});
-            zoom.css('transform', 'scale(' + this.scale + ')');
+            this.props.adjustScale(1.05);
             break;
           case 'W':
-            this.scale *= .8;
-            this.setState({'scale': this.scale});
-            zoom.css('transform', 'scale(' + this.scale + ')');
+            this.props.adjustScale(0.95);
             break;
           default:
             return;
@@ -81,7 +85,9 @@ class ZoomController extends React.Component {
       <div className="zoom-controller">
         <CameraController
           pixelArray={this.props.pixelArray}
-          scale={this.state.scale}
+          scale={this.props.scale}
+          position={this.props.position}
+          adjustCameraPosition={this.props.adjustCameraPosition}
           addSelectedPixels={this.props.addSelectedPixels}/>
       </div>
     );

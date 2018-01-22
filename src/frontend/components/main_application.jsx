@@ -17,6 +17,8 @@ class MainApplication extends React.Component {
     this.state = {
       pixels: {},
       instance: null,
+      scale: 1,
+      position: [0,0],
       pixelArray: [],
       currentTab: 'draw',
     };
@@ -27,6 +29,9 @@ class MainApplication extends React.Component {
     this.createPixelArray = this.createPixelArray.bind(this)
     this.changeSelectedTab = this.changeSelectedTab.bind(this)
     this.pixelAddingSelection = this.pixelAddingSelection.bind(this)
+    this.adjustScale = this.adjustScale.bind(this)
+    this.adjustCameraPosition = this.adjustCameraPosition.bind(this)
+
 
 
     this.sideLength = 500;
@@ -122,15 +127,33 @@ class MainApplication extends React.Component {
     }
   }
 
+  adjustScale(multiplier) {
+    this.setState({'scale': this.state.scale * multiplier});
+  }
+
+  adjustCameraPosition(relativeTo, movementSpeed) {
+    let position = this.state.position;
+    if (relativeTo === 'left') {
+      position[0] += movementSpeed
+      this.setState({'position': position})
+    } else if (relativeTo === 'top') {
+      position[1] += movementSpeed
+      this.setState({'position': position})
+    }
+  }
+
   render() {
-    console.log(this.props.selectedPixels);
     return (
       <div className="canvas-container">
         <NavBar/>
         <ZoomController
           key={`index-${Math.floor(Math.random() * 1000)}`}
           pixelArray={this.state.pixelArray}
-          addSelectedPixels={this.pixelAddingSelection}/>
+          addSelectedPixels={this.pixelAddingSelection}
+          scale={this.state.scale}
+          position={this.state.position}
+          adjustCameraPosition={this.adjustCameraPosition}
+          adjustScale={this.adjustScale}/>
         <PanelContainer
           currentTab={this.state.currentTab}
           changeSelectedTab={this.changeSelectedTab}
