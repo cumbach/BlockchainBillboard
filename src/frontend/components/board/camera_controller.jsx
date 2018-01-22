@@ -73,7 +73,7 @@ class CameraController extends React.Component {
     const keyButtons = Object.keys(this.pressedKeys);
     for (var i = 0; i < keyButtons.length; i++) {
       if (this.pressedKeys[keyButtons[i]]) {
-        const movementSpeed = (5/this.props.scale > 1) ? (5/this.props.scale) : 1;
+        const movementSpeed = (10/this.props.scale > 1) ? (10/this.props.scale) : 1;
         switch(keyButtons[i]) {
           case 'left':
             this.props.adjustCameraPosition('left', movementSpeed)
