@@ -13,7 +13,7 @@ class RentContainer extends React.Component {
       <div className='action-container rent-container'>
         RENT
         <SelectedPixels selectedPixels={this.props.selectedPixels}/>
-        <CommentLinkField/>
+        <CommentLinkField commentLink={this.props.commentLink} updateCommentLink={this.props.updateCommentLink}/>
         <TabulatedCosts/>
         <ActionButton/>
       </div>

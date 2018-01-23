@@ -18,9 +18,10 @@ class MainApplication extends React.Component {
       pixels: {},
       instance: null,
       scale: 1,
-      position: [0,0],
+      position: [100,100],
       pixelArray: [],
       currentTab: 'draw',
+      commentLink: ['','']
     };
 
     this.CanvasCore = contract(canvas_artifacts);
@@ -31,7 +32,7 @@ class MainApplication extends React.Component {
     this.pixelAddingSelection = this.pixelAddingSelection.bind(this)
     this.adjustScale = this.adjustScale.bind(this)
     this.adjustCameraPosition = this.adjustCameraPosition.bind(this)
-
+    this.updateCommentLink = this.updateCommentLink.bind(this)
 
 
     this.sideLength = 500;
@@ -142,6 +143,14 @@ class MainApplication extends React.Component {
     }
   }
 
+  updateCommentLink(e) {
+    if (e.target.className === 'comment') {
+      this.setState({'commentLink':[e.target.value, this.state.commentLink[1]]});
+    } else if (e.target.className === 'link') {
+      this.setState({'commentLink':[this.state.commentLink[0], e.target.value]});
+    }
+  }
+
   render() {
     return (
       <div className="canvas-container">
@@ -158,6 +167,8 @@ class MainApplication extends React.Component {
           currentTab={this.state.currentTab}
           changeSelectedTab={this.changeSelectedTab}
           selectedPixels={this.props.selectedPixels}
+          commentLink={this.state.commentLink}
+          updateCommentLink={this.updateCommentLink}
         />
       </div>
     )

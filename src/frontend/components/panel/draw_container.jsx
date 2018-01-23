@@ -14,7 +14,7 @@ class DrawContainer extends React.Component {
       <div className='action-container draw-container'>
         DRAW
         <SelectedPixels selectedPixels={this.props.selectedPixels}/>
-        <CommentLinkField/>
+        <CommentLinkField commentLink={this.props.commentLink} updateCommentLink={this.props.updateCommentLink}/>
         <TabulatedCosts/>
         <ActionButton/>
       </div>

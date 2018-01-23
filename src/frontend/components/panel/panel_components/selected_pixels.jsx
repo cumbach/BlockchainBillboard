@@ -7,7 +7,7 @@ class SelectedPixels extends React.Component {
   render() {
     return (
       <div className='selected-pixels'>
-        Selected Pixels
+        <strong>Selected Pixels</strong>
         {this.props.selectedPixels.map(pixels => '[' + pixels[0] + ', ' + pixels[1] +']')}
       </div>
     );

@@ -24,16 +24,24 @@ class PanelContainer extends React.Component {
           switch(this.props.currentTab) {
             case 'draw':
               return <DrawContainer
-                        selectedPixels={this.props.selectedPixels.draw}/>;
+                        selectedPixels={this.props.selectedPixels.draw}
+                        updateCommentLink={this.props.updateCommentLink}
+                        commentLink={this.props.commentLink}/>;
             case 'buy':
               return <BuyContainer
-                        selectedPixels={this.props.selectedPixels.buy}/>;
+                        selectedPixels={this.props.selectedPixels.buy}
+                        updateCommentLink={this.props.updateCommentLink}
+                        commentLink={this.props.commentLink}/>;
             case 'rent':
               return <RentContainer
-                        selectedPixels={this.props.selectedPixels.rent}/>;
+                        selectedPixels={this.props.selectedPixels.rent}
+                        updateCommentLink={this.props.updateCommentLink}
+                        commentLink={this.props.commentLink}/>;
             case 'manage':
               return <ManageContainer
-                        selectedPixels={this.props.selectedPixels.manage}/>;
+                        selectedPixels={this.props.selectedPixels.manage}
+                        updateCommentLink={this.props.updateCommentLink}
+                        commentLink={this.props.commentLink}/>;
             default:
             return null;
           }

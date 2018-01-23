@@ -30,3 +30,10 @@
   background: yellow;
   height: 100%;
 }
+
+
+.comment-link-field input {
+  display: block;
+  padding: 5px;
+  margin: 5px;
+}
