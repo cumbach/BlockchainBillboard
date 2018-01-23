@@ -8,7 +8,9 @@ class SelectedPixels extends React.Component {
     return (
       <div className='selected-pixels'>
         <strong>Selected Pixels</strong>
-        {this.props.selectedPixels.map(pixels => '[' + pixels[0] + ', ' + pixels[1] +']')}
+        <div className='selected-pixels-container'>
+          {this.props.selectedPixels.map(pixels => '[' + pixels[0] + ', ' + pixels[1] +']')}
+        </div>
       </div>
     );
   }

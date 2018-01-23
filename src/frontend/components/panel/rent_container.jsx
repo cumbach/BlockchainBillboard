@@ -15,7 +15,7 @@ class RentContainer extends React.Component {
         <SelectedPixels selectedPixels={this.props.selectedPixels}/>
         <CommentLinkField commentLink={this.props.commentLink} updateCommentLink={this.props.updateCommentLink}/>
         <TabulatedCosts/>
-        <ActionButton/>
+        <ActionButton actionName='Rent'/>
       </div>
     );
   }
