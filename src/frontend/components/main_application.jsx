@@ -17,8 +17,8 @@ class MainApplication extends React.Component {
     this.state = {
       pixels: {},
       instance: null,
-      scale: 1,
-      position: [100,100],
+      scale: 0.7,
+      position: [-170,-90],
       pixelArray: [],
       currentTab: 'draw',
       commentLink: ['','']
@@ -35,14 +35,15 @@ class MainApplication extends React.Component {
     this.updateCommentLink = this.updateCommentLink.bind(this)
 
 
-    this.sideLength = 500;
+    this.sideHeight = 720;
+    this.sideLength = 1280;
 
 
   }
 
   createPixelArray() {
     let result = [];
-    for (var i = 0; i < this.sideLength; i++) {
+    for (var i = 0; i < this.sideHeight; i++) {
       for (var j = 0; j < this.sideLength; j++) {
         let r = Math.floor(Math.random() * 255);
         let g = Math.floor(Math.random() * 255);

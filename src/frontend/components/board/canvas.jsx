@@ -16,7 +16,8 @@ class Canvas extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.getPositions = this.getPositions.bind(this)
     this.comparePositions = this.comparePositions.bind(this)
-    this.sideLength = 500;
+    this.sideLength = 1280;
+    this.sideHeight = 720;
   }
 
   componentWillMount(){
@@ -74,14 +75,14 @@ class Canvas extends React.Component {
   }
 
   animate() {
-    this.ctx.clearRect(0, 0, this.sideLength, this.sideLength);
+    this.ctx.clearRect(0, 0, this.sideLength, this.sideHeight);
 
     this.draw();
     // requestAnimationFrame(this.animate.bind(this));
   }
 
   draw() {
-    const clampedArrayLength = (this.sideLength ** 2) * 4;
+    const clampedArrayLength = (this.sideLength * this.sideHeight) * 4;
     const clampedArray = new Uint8ClampedArray(clampedArrayLength);
 
     for (var i = 0; i < this.props.pixelArray.length; i++) {
@@ -97,7 +98,7 @@ class Canvas extends React.Component {
 
   render() {
     return (
-      <canvas id='canvas' width={this.sideLength} height={this.sideLength}></canvas>
+      <canvas id='canvas' width={this.sideLength} height={this.sideHeight}></canvas>
     );
   }
 }
