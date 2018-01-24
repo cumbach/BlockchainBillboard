@@ -6,7 +6,7 @@ import React from 'react';
 class ActionButton extends React.Component {
   render() {
     return (
-      <div className='action-button'>
+      <div className='action-button' onClick={this.props.doAction}>
         {this.props.actionName}
       </div>
     );

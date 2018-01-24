@@ -15,7 +15,7 @@ class BuyContainer extends React.Component {
         <SelectedPixels selectedPixels={this.props.selectedPixels}/>
         <CommentLinkField commentLink={this.props.commentLink} updateCommentLink={this.props.updateCommentLink}/>
         <TabulatedCosts/>
-        <ActionButton actionName='Buy'/>
+        <ActionButton actionName='Buy' doAction={this.props.buyPixels}/>
       </div>
     );
   }

@@ -1,29 +1,50 @@
 .panel-container {
+  border: 2px solid rgba(0,0,0,0.3);
+  top: 90px;
+  border-radius: 5px;
   position: absolute;
-  right: 0;
-  height: 100%;
+  right: 20px;
+  height: 600px;
   width: 400px;
-  background: rgba(0,0,0,0.1);
+  background: orange;
   z-index: 1000;
 
 }
 
 .tab-selection-container {
-  height: 150px;
-  background: rgba(0,0,0,0.5);
-  border: 1px solid orange;
+  display: flex;
+  justify-content: space-evenly;
+  height: 60px;
+  /* background: rgba(0,0,0,0.5); */
+  /* border: 1px solid orange; */
 }
 
 .tab-selection-container .action-tab {
   width: 90px;
-  float: left;
-  height: 100px;
-  background: rgba(0,0,0,0.2);
-  border: 1px solid blue;
+  display: inline-block;
+  height: 60px;
+  background: white;
+  border-bottom: 2px solid blue;
+  font-size: 20px;
+  text-align: center;
+  padding: 10px 0 10px 0;
+}
+
+.draw .draw-tab {
+  border-bottom: 0px;
+}
+.buy .buy-tab {
+  border-bottom: 0px;
+}
+.rent .rent-tab {
+  border-bottom: 0px;
+}
+.manage .manage-tab {
+  border-bottom: 0px;
 }
 
 .current-displayed-action {
-  height: 100%
+  height: 530px;
 }
 
 .current-displayed-action .action-container {

@@ -57,12 +57,12 @@ class MainApplication extends React.Component {
   }
 
   componentWillMount(){
-    // this.handleContract();
+    this.handleContract();
   }
 
   componentDidMount() {
     window.setTimeout(this.createPixelArray, 1500)
-    // window.setTimeout(this.handleContract, 1500)
+    window.setTimeout(this.handleContract, 1500)
   }
 
   handleContract(){
@@ -92,7 +92,7 @@ class MainApplication extends React.Component {
   // Takes an array of arrays/strings/numbers
   buyPixels(pixels) {
     this.CanvasCore.deployed().then(instance => {
-      const pixelIdsArray = [6, 9];
+      const pixelIdsArray = [9, 18];
       const colorsArray = [12, 249];
       const url = 'link2';
       const comment = 'comment2';
@@ -170,6 +170,7 @@ class MainApplication extends React.Component {
           selectedPixels={this.props.selectedPixels}
           commentLink={this.state.commentLink}
           updateCommentLink={this.updateCommentLink}
+          buyPixels={this.buyPixels}
         />
       </div>
     )

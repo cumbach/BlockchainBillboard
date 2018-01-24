@@ -31,7 +31,8 @@ class PanelContainer extends React.Component {
               return <BuyContainer
                         selectedPixels={this.props.selectedPixels.buy}
                         updateCommentLink={this.props.updateCommentLink}
-                        commentLink={this.props.commentLink}/>;
+                        commentLink={this.props.commentLink}
+                        buyPixels={this.props.buyPixels}/>;
             case 'rent':
               return <RentContainer
                         selectedPixels={this.props.selectedPixels.rent}
@@ -54,7 +55,7 @@ class PanelContainer extends React.Component {
   render() {
     return (
       <div className='panel-container'>
-        <TabSelectionContainer changeSelectedTab={this.props.changeSelectedTab}/>
+        <TabSelectionContainer currentTab={this.props.currentTab} changeSelectedTab={this.props.changeSelectedTab}/>
         {this.currentDisplayedTab()}
       </div>
     );

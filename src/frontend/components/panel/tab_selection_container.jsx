@@ -5,19 +5,9 @@ import React from 'react';
 
 
 class TabSelectionContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.setBuyTab = this.setBuyTab.bind(this)
-  }
-
-  setBuyTab() {
-    this.props.changeSelectedTab('buy');
-  }
-
   render() {
     return (
-      <div className='tab-selection-container'>
+      <div className={'tab-selection-container ' + this.props.currentTab}>
         <div className='action-tab draw-tab' onClick={this.props.changeSelectedTab.bind(this, 'draw')}>Draw</div>
         <div className='action-tab buy-tab' onClick={this.props.changeSelectedTab.bind(this, 'buy')}>Buy</div>
         <div className='action-tab rent-tab' onClick={this.props.changeSelectedTab.bind(this, 'rent')}>Rent</div>

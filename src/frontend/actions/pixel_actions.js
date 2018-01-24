@@ -1,7 +1,7 @@
 import * as ProjectUtil from '../util/projectUtil';
 
 export const RECEIVE_PIXELS = "RECEIVE_PIXELS";
-export const PURCHASE_PIXELS = "PURCHASE_PIXELS";
+// export const PURCHASE_PIXELS = "PURCHASE_PIXELS";
 export const ADD_SELECTED_PIXELS_DRAW = "ADD_SELECTED_PIXELS_DRAW";
 export const ADD_SELECTED_PIXELS_BUY = "ADD_SELECTED_PIXELS_BUY";
 export const ADD_SELECTED_PIXELS_RENT = "ADD_SELECTED_PIXELS_RENT";
@@ -12,10 +12,10 @@ export const receivePixels = pixels => ({
   pixels
 });
 
-export const purchasePixels = pixels => ({
-  type: PURCHASE_PIXELS,
-  pixels
-});
+// export const purchasePixels = pixels => ({
+//   type: PURCHASE_PIXELS,
+//   pixels
+// });
 
 export const addDrawSelected = selectedPixelsDraw => ({
   type: ADD_SELECTED_PIXELS_DRAW,
