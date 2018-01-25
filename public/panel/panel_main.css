@@ -6,8 +6,9 @@
   right: 20px;
   height: 600px;
   width: 400px;
-  background: orange;
+  background: rgba(200,200,200,1);
   z-index: 1000;
+  overflow: hidden;
 
 }
 
@@ -20,14 +21,17 @@
 }
 
 .tab-selection-container .action-tab {
-  width: 90px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  width: 93px;
   display: inline-block;
   height: 60px;
   background: white;
-  border-bottom: 2px solid blue;
+  border-bottom: 2px solid red;
   font-size: 20px;
   text-align: center;
   padding: 10px 0 10px 0;
+
 }
 
 .draw .draw-tab {
@@ -48,8 +52,8 @@
 }
 
 .current-displayed-action .action-container {
-  background: yellow;
-  height: 100%;
+  background: white;
+  height: 102%;
 }
 
 

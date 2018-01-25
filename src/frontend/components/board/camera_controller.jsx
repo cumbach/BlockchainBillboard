@@ -73,7 +73,7 @@ class CameraController extends React.Component {
     const keyButtons = Object.keys(this.pressedKeys);
     for (var i = 0; i < keyButtons.length; i++) {
       if (this.pressedKeys[keyButtons[i]]) {
-        const movementSpeed = (10/this.props.scale > 1) ? (10/this.props.scale) : 1;
+        const movementSpeed = (20/this.props.scale > 1) ? (20/this.props.scale) : 1;
         switch(keyButtons[i]) {
           case 'left':
             this.props.adjustCameraPosition('left', movementSpeed)
@@ -99,6 +99,7 @@ class CameraController extends React.Component {
       <div className="camera-controller">
         <Canvas
           pixelArray={this.props.pixelArray}
+          pixels={this.props.pixels}
           scale={this.props.scale}
           addSelectedPixels={this.props.addSelectedPixels}/>
       </div>

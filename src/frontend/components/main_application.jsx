@@ -6,8 +6,6 @@ import PanelContainer from './panel/panel_container';
 // import { Link } from 'react-router-dom';
 import { default as contract } from 'truffle-contract';
 
-// import fundeth_artifacts from '../../../build/contracts/FundEth.json';
-// import metacoin_artifacts from '../../../build/contracts/MetaCoin.json';
 import canvas_artifacts from '../../../build/contracts/CanvasCore.json';
 
 
@@ -45,11 +43,26 @@ class MainApplication extends React.Component {
     let result = [];
     for (var i = 0; i < this.sideHeight; i++) {
       for (var j = 0; j < this.sideLength; j++) {
-        let r = Math.floor(Math.random() * 255);
-        let g = Math.floor(Math.random() * 255);
-        let b = Math.floor(Math.random() * 255);
-        let a = Math.floor(Math.random() * 255);
+        const currentPixel = this.state.pixels[(i*this.sideLength) + j];
+        let r;
+        let g;
+        let b;
+        let a;
+        if (currentPixel) {
+          r = currentPixel.red;
+          g = currentPixel.blue;
+          b = currentPixel.green;
+          a = 255;
+        } else {
+          r = Math.floor(Math.random() * 255);
+          g = Math.floor(Math.random() * 255);
+          b = Math.floor(Math.random() * 255);
+          a = Math.floor(Math.random() * 255);
+        }
         let color = [r, g, b, a];
+        // var x = this.convertColorToUint32(color)
+        // var y = this.convertUint32ToColorArray(x)
+        // result.push([i, j, y]);
         result.push([i, j, color]);
       }
     }
@@ -82,18 +95,64 @@ class MainApplication extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.pixels && this.state.pixels !== newProps.pixels) {
-      this.setState({pixels: newProps.pixels});
+
+      let orderedPixels = {};
+
+      // REPLACE WITH NEW PROPS FROM CONTRACT
+      for (var i = 0; i < 10000; i++) {
+        orderedPixels[i] = {};
+        orderedPixels[i].red = 255;
+        orderedPixels[i].green = 5;
+        orderedPixels[i].blue = 4;
+        orderedPixels[i].prices = 0.2;
+        orderedPixels[i].rentable = true;
+        orderedPixels[i].squatable = true;
+      }
+
+      // this.setState({pixels: newProps.pixels});
+      this.setState({pixels: orderedPixels});
     } else if (newProps.web3 !== undefined) {
       this.setState( {web3: newProps.web3})
       this.handleContract()
     }
   }
 
+  // convertColorToUint32(colorArray) {
+    // var red = 255;
+    // var green = 0;
+    // var blue = 0;
+    // var alpha = 1;
+    // var rgba = (red << 24) + (green << 16) + (blue << 8) + (alpha);
+    // console.log(rgba);
+    // return (colorArray[0] << 24) + (colorArray[1] << 16) + (colorArray[2] << 8) + colorArray[3];
+  // }
+
+  // convertUint32ToColorArray(uint32) {
+    // var pixelValue = rgba;
+    // var pixelData = {
+    //   red: pixelValue >> 24 & 0xFF,
+    //   green: pixelValue >> 16 & 0xFF,
+    //   blue: pixelValue >> 8 & 0xFF,
+    //   alpha: pixelValue & 0xFF
+    // };
+    // console.log(pixelData);
+    // return [
+    //   uint32 >> 24 & 0xFF,
+    //   uint32 >> 16 & 0xFF,
+    //   uint32 >> 8 & 0xFF,
+    //   uint32 & 0xFF
+    // ];
+  // }
+
   // Takes an array of arrays/strings/numbers
   buyPixels(pixels) {
+    // var j = this.convertColorToUint32([255,0,0,1])
+    // console.log(this.convertColorToUint32([255,0,0,1]));
+    // console.log(this.convertUint32ToColorArray(j));
+
     this.CanvasCore.deployed().then(instance => {
-      const pixelIdsArray = [9, 18];
-      const colorsArray = [12, 249];
+      const pixelIdsArray = [27, 28];
+      const colorsArray = [-5952982, -5952982];
       const url = 'link2';
       const comment = 'comment2';
       const priceEther = 0.42;
@@ -105,6 +164,7 @@ class MainApplication extends React.Component {
       console.log('buyPixels transaction posted (may take time to verify transaction)');
     });
   }
+
 
   changeSelectedTab(tab) {
     this.setState({'currentTab': tab})
@@ -158,6 +218,7 @@ class MainApplication extends React.Component {
         <NavBar/>
         <ZoomController
           key={`index-${Math.floor(Math.random() * 1000)}`}
+          pixels={this.state.pixels}
           pixelArray={this.state.pixelArray}
           addSelectedPixels={this.pixelAddingSelection}
           scale={this.state.scale}
