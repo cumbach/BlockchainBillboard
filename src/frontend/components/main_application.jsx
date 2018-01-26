@@ -3,6 +3,9 @@ import React from 'react';
 import ZoomController from './board/zoom_controller';
 import NavBar from './other/nav_bar';
 import PanelContainer from './panel/panel_container';
+import ColorPicker from './other/color_picker';
+
+
 // import { Link } from 'react-router-dom';
 import { default as contract } from 'truffle-contract';
 
@@ -31,6 +34,7 @@ class MainApplication extends React.Component {
     this.adjustScale = this.adjustScale.bind(this)
     this.adjustCameraPosition = this.adjustCameraPosition.bind(this)
     this.updateCommentLink = this.updateCommentLink.bind(this)
+    this.setColoringColor = this.setColoringColor.bind(this)
 
 
     this.sideHeight = 720;
@@ -212,6 +216,10 @@ class MainApplication extends React.Component {
     }
   }
 
+  setColoringColor(color) {
+    this.setState({'coloringColor': color})
+  }
+
   render() {
     return (
       <div className="canvas-container">
@@ -233,6 +241,7 @@ class MainApplication extends React.Component {
           updateCommentLink={this.updateCommentLink}
           buyPixels={this.buyPixels}
         />
+        <ColorPicker setColoringColor={this.setColoringColor}/>
       </div>
     )
   }
