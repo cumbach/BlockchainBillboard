@@ -14,7 +14,7 @@ contract PixelStore is ERC721 {
         uint128 price;
         // int32 color;
         int32 color;
-        bool rentable
+        bool rentable;
 
         // Time till when the pixel's maintainence is paid for
         uint64 staleTime;
@@ -28,7 +28,7 @@ contract PixelStore is ERC721 {
         
     mapping (address => uint) ownershipPixelCount;
     mapping (uint => address) pixelIndexToApproved;
-    mapping (uint => Pixel) public pixels;
+    mapping (uint => Pixel) pixels;
     
     modifier isValidPixelId(uint _pixelId) {
         require(_pixelId >= 0 && _pixelId < totalPixels);

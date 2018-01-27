@@ -8,6 +8,7 @@ contract CanvasCore is PixelStore, Ownable {
     event BuyEvent();
     event RentEvent();
     event SquatEvent();
+    event ManageEvent();
 
     address wallet;
 
@@ -72,7 +73,7 @@ contract CanvasCore is PixelStore, Ownable {
     function isSquattable(uint _pixelId) public view isValidPixelId(_pixelId) returns (bool) {
         return (pixels[_pixelId].owner > 0 && 
                 pixels[_pixelId].staleTime < now &&
-                pixels[_pixelId].rentTime < now)
+                pixels[_pixelId].rentTime < now);
     }
 
     /// Returns the price of any pixelId
@@ -107,6 +108,7 @@ contract CanvasCore is PixelStore, Ownable {
         int32[] _colors, 
         uint128 _sellingPrice, 
         uint64 _buyCooldownWeeks,
+        bool _rentable
     ) public payable
     {
         // Calculates the fees incurred for this buy based on the base buying fee 
@@ -150,6 +152,7 @@ contract CanvasCore is PixelStore, Ownable {
             pixel.color = _colors[i];
             pixel.price = _sellingPrice;
             pixel.staleTime = _staleTime;
+            pixel.rentable = _rentable;
             pixel.rentTime = 0;
 
             // Pay the selling price of this pixel to its owner
@@ -163,6 +166,65 @@ contract CanvasCore is PixelStore, Ownable {
         amountToWithdraw[wallet] += totalBuyingFees;
 
         BuyEvent();
+    }
+
+
+    /// Takes in an array of pixelIds to update. 
+    // Also accepts maintainence fee to extend cooldown time.
+    // Buys and charges user for all pixels manageable.
+    // Puts the remaining money in amountToWithdraw
+    // Doesn't supports All-Or-None: ignores pixels which the sender doesn't own.
+    // NOTE: In case any field isn't change, the parameter should contain the previous value. 
+    //       This code sets all valid pixels to have the new sellingPrice, adds to the cooldown 
+    //       timer and sets if they are rentable or not as a bulk action. 
+    function managePixels(
+        uint[] _pixelIds, 
+        int32[] _colors, 
+        uint128 _sellingPrice, 
+        uint64 _newCooldownWeeks,
+        bool _rentable
+    ) public payable
+    {
+        // Calculates the fees incurred for this buy based on the base buying fee 
+        // and the weekly maintainence price. 
+        uint maintainFees = _newCooldownWeeks * maintainFees;
+        uint totalFees = 0;
+        uint i;
+        uint pixId;
+
+        // This block checks if 
+        // - the sender provided enough capital for the purchase.
+        // - all the pixels are owned by the sender
+        for (i = 0; i < _pixelIds.length; i++) {
+            pixId = _pixelIds[i];
+            if (getOwner(pixId) == msg.sender) {
+                totalFees += maintainFees;
+            }
+        }
+
+        uint amount = msg.value;
+        require(amount >= totalFees);
+
+        // Sets the excess funds in a withdrawAmount mapping.
+        amountToWithdraw[msg.sender] += (amount - totalFees);
+
+        // Pays buying fees to the wallet
+        amountToWithdraw[wallet] += totalFees;
+
+        // Updates the metadata.
+        for (i = 0; i < _pixelIds.length; i++) {
+            pixId = _pixelIds[i];
+            if (getOwner(pixId) == msg.sender) {
+                Pixel storage pixel = pixels[pixId];
+
+                pixel.color = _colors[i];
+                pixel.price = _sellingPrice;
+                pixel.staleTime = max(pixel.staleTime, now) + (_newCooldownWeeks * 1 weeks);
+                pixel.rentable = _rentable;
+            }
+        }
+
+        ManageEvent();
     }
 
 
@@ -211,8 +273,8 @@ contract CanvasCore is PixelStore, Ownable {
         }
 
         uint amount = msg.value;
-        uint totalFees = (rentingFees + rentPrice) * numPixels
-        assert(amount >= totalFees)
+        uint totalFees = (rentingFees + rentPrice) * numPixels;
+        assert(amount >= totalFees);
 
         // Pays renting fees to the wallet
         amountToWithdraw[wallet] += rentingFees * numPixels;
@@ -240,7 +302,7 @@ contract CanvasCore is PixelStore, Ownable {
     // Returns all the pixels that have been bought. These ignores the pixels that have
     // not undergone any transaction and are owned by the creator
     // Returns <= totalPixels elements in each element
-    function getCanvas() external view returns (uint[], uint[], uint[], bool[], bool[]) {
+    function getCanvas() external view returns (uint[], int[], uint[], bool[], bool[], bool[]) {
         uint setPixels = pixelsInMarket.length;
         uint[] memory _pixelIds = new uint[](setPixels);
         int[] memory _colors = new int[](setPixels);
@@ -260,7 +322,7 @@ contract CanvasCore is PixelStore, Ownable {
             _squattable[counter] = isSquattable(pixId);
         }
 
-        return (_pixelIds, _colors, _prices, _buyable, _rentable);
+        return (_pixelIds, _colors, _prices, _buyable, _rentable, _squattable);
     }
 
     function withdraw() public {
