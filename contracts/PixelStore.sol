@@ -6,16 +6,21 @@ contract PixelStore is ERC721 {
     
     struct Pixel {
         address owner;
+
         // Leaser for each pixelId. If the pixel is not stale, the leaser
         // is the owner. If it is stale and rented, the leaser is the user who has
         // rented the pixel
         address leaser;
-        string url;
-        string comment;
         uint128 price;
-        uint32 color;
-        // Time at which the pixel becomes available for renting
+        // int32 color;
+        int32 color;
+        bool rentable
+
+        // Time till when the pixel's maintainence is paid for
         uint64 staleTime;
+
+        // Time till the pixel is leased to the leaser
+        uint64 rentTime;
     }
     
     uint totalPixels;
