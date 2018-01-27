@@ -52,19 +52,23 @@ contract CanvasCore is PixelStore, Ownable {
     
     /// Returns true if the given pixelId is buyable
     // If it has a non-zero price, or it is owned by the creators of the
-    // contract and defaultBuyable is true, then it returns true.
+    // contract and defaultBuyable is true, then it returns true. If the pixels is currently
+    // being rented, then it is not buyable
     function isBuyable(uint _pixelId) public view isValidPixelId(_pixelId) returns (bool) {
         if (pixels[_pixelId].price > 0)
-            return true;
+            return (pixels[_pixelId].rentTime < now);
         if (pixels[_pixelId].owner == 0)
             return defaultBuyable;
         return false;
     }
 
     /// Returns true if the given pixelId is rentable: This happens when the pixel has an
-    // owner and has been marked as rentable by its owner.
+    // owner and has been marked as rentable by its owner AND if there was anyone renting 
+    // the pixel, they have left. 
     function isRentable(uint _pixelId) public view isValidPixelId(_pixelId) returns (bool) {
-      return (pixels[_pixelId].owner > 0 && pixels[_pixelId].rentable);
+        if (pixels[_pixelId].owner > 0 && pixels[_pixelId].rentable) {
+            return (pixels[_pixelId].rentTime < now);
+        }
     }
 
     /// Returns true if the given pixelId is sqauttable: i.e. others can draw on it.
