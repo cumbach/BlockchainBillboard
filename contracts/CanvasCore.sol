@@ -96,6 +96,9 @@ contract CanvasCore is PixelStore, Ownable {
         return defaultOwner;
     }
 
+    function max(uint a, uint b) private pure returns (uint) {
+        return a > b ? a : b;
+    }
 
     /// Takes in an array of pixelIds to buy. Also accepts payment.
     // Note: _buyCooldownWeeks is in weeks. 
@@ -168,7 +171,6 @@ contract CanvasCore is PixelStore, Ownable {
         BuyEvent();
     }
 
-
     /// Takes in an array of pixelIds to update. 
     // Also accepts maintainence fee to extend cooldown time.
     // Buys and charges user for all pixels manageable.
@@ -187,7 +189,7 @@ contract CanvasCore is PixelStore, Ownable {
     {
         // Calculates the fees incurred for this buy based on the base buying fee 
         // and the weekly maintainence price. 
-        uint maintainFees = _newCooldownWeeks * maintainFees;
+        uint fee = _newCooldownWeeks * maintainFees;
         uint totalFees = 0;
         uint i;
         uint pixId;
@@ -197,8 +199,8 @@ contract CanvasCore is PixelStore, Ownable {
         // - all the pixels are owned by the sender
         for (i = 0; i < _pixelIds.length; i++) {
             pixId = _pixelIds[i];
-            if (getOwner(pixId) == msg.sender) {
-                totalFees += maintainFees;
+            if (ownerOf(pixId) == msg.sender) {
+                totalFees += fee;
             }
         }
 
@@ -214,12 +216,13 @@ contract CanvasCore is PixelStore, Ownable {
         // Updates the metadata.
         for (i = 0; i < _pixelIds.length; i++) {
             pixId = _pixelIds[i];
-            if (getOwner(pixId) == msg.sender) {
+            if (ownerOf(pixId) == msg.sender) {
                 Pixel storage pixel = pixels[pixId];
 
                 pixel.color = _colors[i];
                 pixel.price = _sellingPrice;
-                pixel.staleTime = max(pixel.staleTime, now) + (_newCooldownWeeks * 1 weeks);
+                pixel.staleTime = uint64(max(uint(pixel.staleTime), uint(now)) 
+                                  + (_newCooldownWeeks * 1 weeks));
                 pixel.rentable = _rentable;
             }
         }
