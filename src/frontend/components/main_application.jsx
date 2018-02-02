@@ -61,11 +61,7 @@ class MainApplication extends React.Component {
     this.handleContract();
   }
 
-  componentDidMount() {
-  }
-
   handleContract(){
-    console.log('hi');
     const self = this;
     if (this.state.instance !== null) {
       this.props.requestPixels(this.state.instance, this.props.accounts[0])
@@ -99,14 +95,9 @@ class MainApplication extends React.Component {
       }
 
       this.setState({orderedPixels: orderedPixels});
-      // this.createPixelArray(orderedPixels);
-    } else if (newProps.web3 !== undefined) {
-      this.setState( {web3: newProps.web3})
-      // this.handleContract()
     }
   }
 
-  // Takes an array of arrays/strings/numbers
   buyPixels() {
     const pixels = this.props.selectedPixels.buy;
 
@@ -196,7 +187,6 @@ class MainApplication extends React.Component {
              .split(',')
              .map(function(el){return Number(el)});
     rgba.push(255);
-    console.log(rgba);
 
     const colorInt = rgba;
     this.setState({'coloringColor': colorInt})
