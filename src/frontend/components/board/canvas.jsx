@@ -45,7 +45,6 @@ class Canvas extends React.Component {
       const y = e.pageY - newRect.y;
       const clicked = {'Left': x,'Top': y, 'Width': 1,'Height': 1};
       const pos = self.getPositions(clicked);
-      console.log(pos);
 
       const scale = self.props.scale;
       for (let i = 0; i < self.props.pixelArray.length; i++) {

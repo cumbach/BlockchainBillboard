@@ -13,7 +13,6 @@ const pixelsReducer = (oldState = {'draw':[],'buy':[], 'rent':[]}, action) => {
   switch (action.type) {
     case ADD_SELECTED_PIXELS_DRAW:
       newState = Object.assign({}, oldState);
-      console.log(action.selectedPixelsDraw);
       let selectedPixelsDraw = {'draw': oldState.draw.concat([action.selectedPixelsDraw])};
       newState = Object.assign(newState, selectedPixelsDraw);
       return newState;

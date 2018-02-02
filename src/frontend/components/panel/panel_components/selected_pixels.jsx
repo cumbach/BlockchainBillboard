@@ -5,7 +5,6 @@ import React from 'react';
 
 class SelectedPixels extends React.Component {
   render() {
-    console.log(this.props.selectedPixels);
     return (
       <div className='selected-pixels'>
         <strong>Selected Pixels</strong>

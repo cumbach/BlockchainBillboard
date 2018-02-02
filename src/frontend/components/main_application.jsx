@@ -158,13 +158,13 @@ class MainApplication extends React.Component {
   pixelAddingSelection(pixel) {
     switch(this.state.currentTab) {
       case 'draw':
-        this.props.addPixelDraw(pixel[0]);
+        this.props.addPixelDraw(pixel);
         break;
       case 'buy':
-        this.props.addPixelBuy(pixel[0]);
+        this.props.addPixelBuy(pixel);
         break;
       case 'rent':
-        this.props.addPixelRent(pixel[0]);
+        this.props.addPixelRent(pixel);
         break;
       case 'manage':
         // this.props.addPixelManage(pixel);
