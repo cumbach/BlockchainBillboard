@@ -120,7 +120,6 @@ class Canvas extends React.Component {
       let b;
       let a;
       if (currentSelectedPixel) {
-        console.log(currentSelectedPixel);
         r = currentSelectedPixel[0];
         g = currentSelectedPixel[1];
         b = currentSelectedPixel[2];

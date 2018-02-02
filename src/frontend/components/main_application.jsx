@@ -25,7 +25,7 @@ class MainApplication extends React.Component {
       pixelArray: [],
       currentTab: 'draw',
       commentLink: ['',''],
-      coloringColor: [255, 0, 0, 0]
+      coloringColor: [255, 0, 0, 255]
 
     };
 
