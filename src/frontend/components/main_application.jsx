@@ -43,8 +43,11 @@ class MainApplication extends React.Component {
 
   }
 
-  createPixelArray() {
+  createPixelArray(orderedPixels) {
     let result = [];
+    // console.log('hey')
+    // console.log(this.state.pixels);
+    console.log(orderedPixels);
     for (var i = 0; i < this.sideHeight; i++) {
       for (var j = 0; j < this.sideLength; j++) {
         const currentPixel = this.state.pixels[(i*this.sideLength) + j];
@@ -78,7 +81,7 @@ class MainApplication extends React.Component {
   }
 
   componentDidMount() {
-    window.setTimeout(this.createPixelArray, 1500)
+    // window.setTimeout(this.createPixelArray, 1500)
     window.setTimeout(this.handleContract, 1500)
   }
 
@@ -98,23 +101,25 @@ class MainApplication extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.pixels && this.state.pixels !== newProps.pixels) {
+    if (newProps.pixels && newProps.pixels.ids && this.state.pixels !== newProps.pixels) {
 
       let orderedPixels = {};
+      // console.log(newProps.pixels);
 
       // REPLACE WITH NEW PROPS FROM CONTRACT
-      for (var i = 0; i < 10000; i++) {
+      for (var i = 0; i < newProps.pixels.ids.length; i++) {
         orderedPixels[i] = {};
-        orderedPixels[i].red = 255;
-        orderedPixels[i].green = 5;
-        orderedPixels[i].blue = 4;
-        orderedPixels[i].prices = 0.2;
-        orderedPixels[i].rentable = true;
-        orderedPixels[i].squatable = true;
+        orderedPixels[i].color = newProps.pixels.colors[i];
+        orderedPixels[i].price = newProps.pixels.prices[i];
+        orderedPixels[i].rentable = newProps.pixels.rentable[i];
+        orderedPixels[i].buyable = newProps.pixels.buyable[i];
+        orderedPixels[i].squatable = newProps.pixels.squatable[i];
       }
+      console.log(orderedPixels);
 
       // this.setState({pixels: newProps.pixels});
       this.setState({pixels: orderedPixels});
+      this.createPixelArray(orderedPixels);
     } else if (newProps.web3 !== undefined) {
       this.setState( {web3: newProps.web3})
       this.handleContract()
@@ -155,14 +160,18 @@ class MainApplication extends React.Component {
     // console.log(this.convertUint32ToColorArray(j));
 
     this.CanvasCore.deployed().then(instance => {
-      const pixelIdsArray = [27, 28];
-      const colorsArray = [-5952982, -5952982];
-      const url = 'link2';
-      const comment = 'comment2';
+      const pixelIdsArray = [];
+      const colorsArray = [];
+      for (var i = 0; i < 10; i++) {
+        pixelIdsArray.push(i);
+        colorsArray.push(-5952982);
+      }
+      const cooldown = 1;
+      const rentable = true;
       const priceEther = 0.42;
-      const totalCost = 2;
+      const totalCost = 1;
 
-      const pixelsTesting = [ pixelIdsArray, colorsArray, url, comment, priceEther, totalCost ];
+      const pixelsTesting = [ pixelIdsArray, colorsArray, priceEther, cooldown, rentable, totalCost ];
       return this.props.buyPixels(instance, this.props.accounts[0], pixelsTesting);
     }).then(transactionId => {
       console.log('buyPixels transaction posted (may take time to verify transaction)');

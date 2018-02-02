@@ -3,35 +3,25 @@ var pixels = {};
 
 // Calls on the contract to getCanvas and returns object of arrays
 export const getCanvas = async (instance, account) => {
-  // var canvas = await instance.getCanvas(account, { from: account });
-
-  // var pixels = {
-  //   ids: canvas[0],
-  //   colors: canvas[1],
-  //   prices: canvas[2],
-  //   rentable: canvas[3],
-  //   squatable: canvas[4]
-  // };
+  var canvas = await instance.getCanvas(account, { from: account, gas: 6385876 });
 
   pixels = {
-    ids: [0,1,2],
-    red: [255,255,255],
-    green: [5,5,5],
-    blue: [4,4,4],
-    prices: [0.2,0.2,0.2],
-    rentable: [true, true, true],
-    squatable: [true, true, true]
+    ids: canvas[0].map(function(el){return parseInt(el, 10)}),
+    colors: canvas[1].map(function(el){return parseInt(el, 10)}),
+    prices: canvas[2].map(function(el){return parseInt(el, 10)}),
+    buyable: canvas[3],
+    rentable: canvas[4],
+    squatable: canvas[5]
   };
 
   return pixels;
 };
 // Calls getCanvas above
-const fetchPixels = (instance,account) => {
-  getCanvas(instance, account).then(response => {
-    if (response) {
-      pixels = response;
-    }
-  })
+const fetchPixels = async (instance,account) => {
+  const response = await getCanvas(instance, account);
+  if (response) {
+    pixels = response;
+  }
 };
 // Calls fetchPixels above
 export const getPixels = async (instance, account) => {
@@ -43,7 +33,7 @@ export const getPixels = async (instance, account) => {
 
 // Calls on Contract to buyPixels
 export const buyPixels = async (instance, account, pixels) => {
-  const transactionId = await instance.buyPixels.sendTransaction(pixels[0], pixels[1], pixels[2], pixels[3], web3.toWei(pixels[4], 'ether'), {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876});
+  const transactionId = await instance.buyPixels.sendTransaction(pixels[0], pixels[1], pixels[2], pixels[3], pixels[4], {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876});
   return transactionId;
 };
 
