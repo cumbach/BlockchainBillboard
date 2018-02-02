@@ -7,7 +7,7 @@ class CommentLinkField extends React.Component {
   render() {
     return (
       <div className='comment-link-field'>
-        <strong>CommentLinkField</strong>
+        <strong>CommentLinkField (THIS ISN'T SET UP YET)</strong>
         <input className='comment'
                value={this.props.commentLink[0]}
                onChange={this.props.updateCommentLink}

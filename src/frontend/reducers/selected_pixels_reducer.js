@@ -6,7 +6,7 @@ import {
 // object merge function
 // import merge from 'lodash/merge';
 
-const pixelsReducer = (oldState = {'draw':[],'buy':[], 'rent':[]}, action) => {
+const pixelsReducer = (oldState = {'draw':[],'buy':[], 'rent':[], 'manage': []}, action) => {
   Object.freeze(oldState);
   let newState;
 

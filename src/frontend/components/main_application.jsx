@@ -32,7 +32,6 @@ class MainApplication extends React.Component {
     this.CanvasCore = contract(canvas_artifacts);
     this.handleContract = this.handleContract.bind(this)
     this.buyPixels = this.buyPixels.bind(this)
-    // this.createPixelArray = this.createPixelArray.bind(this)
     this.changeSelectedTab = this.changeSelectedTab.bind(this)
     this.pixelAddingSelection = this.pixelAddingSelection.bind(this)
     this.adjustScale = this.adjustScale.bind(this)
@@ -44,33 +43,6 @@ class MainApplication extends React.Component {
     this.sideHeight = 100;
     this.sideLength = 100;
   }
-
-  // createPixelArray(orderedPixels) {
-  //   let result = [];
-  //
-  //   for (var i = 0; i < this.sideHeight * this.sideLength; i++) {
-  //     const currentPixel = orderedPixels[i];
-  //     let r;
-  //     let g;
-  //     let b;
-  //     let a;
-  //     if (currentPixel) {
-  //       var colors = this.convertUint32ToColorArray(currentPixel.color)
-  //       r = colors[0];
-  //       g = colors[1];
-  //       b = colors[2];
-  //       a = 255;
-  //     } else {
-  //       r = Math.floor(Math.random() * 255);
-  //       g = Math.floor(Math.random() * 255);
-  //       b = Math.floor(Math.random() * 255);
-  //       a = Math.floor(Math.random() * 255);
-  //     }
-  //     let color = [r, g, b, a];
-  //     result.push([i, color]);
-  //   }
-  //   this.setState({'pixelArray': result})
-  // }
 
   convertColorToUint32(colorArray) {
     return (colorArray[0] << 24) + (colorArray[1] << 16) + (colorArray[2] << 8) + colorArray[3];
@@ -86,17 +58,18 @@ class MainApplication extends React.Component {
   }
 
   componentWillMount(){
-    // this.handleContract();
+    this.handleContract();
   }
 
   componentDidMount() {
-    window.setTimeout(this.handleContract, 1500)
   }
 
   handleContract(){
+    console.log('hi');
     const self = this;
     if (this.state.instance !== null) {
       this.props.requestPixels(this.state.instance, this.props.accounts[0])
+      window.setTimeout(this.handleContract, 1500)
     } else if (this.props.web3 !== null) {
       this.CanvasCore.setProvider(this.props.web3.currentProvider);
       this.CanvasCore.deployed().then((instance) => {
@@ -105,6 +78,8 @@ class MainApplication extends React.Component {
           self.setState({ 'pixels': result.pixels });
         })
       })
+    } else {
+      window.setTimeout(this.handleContract, 1500)
     }
   }
 
