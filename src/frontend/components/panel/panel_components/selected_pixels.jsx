@@ -5,11 +5,12 @@ import React from 'react';
 
 class SelectedPixels extends React.Component {
   render() {
+    console.log(this.props.selectedPixels);
     return (
       <div className='selected-pixels'>
         <strong>Selected Pixels</strong>
         <div className='selected-pixels-container'>
-          {this.props.selectedPixels.map(pixels => '[' + pixels[0] + ', ' + pixels[1] +']')}
+          {this.props.selectedPixels.map(pixel => '[' + pixel + ']')}
         </div>
       </div>
     );

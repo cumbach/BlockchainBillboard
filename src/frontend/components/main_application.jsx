@@ -1,10 +1,11 @@
+/* eslint no-mixed-operators: 0 */
+
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import ZoomController from './board/zoom_controller';
 import NavBar from './other/nav_bar';
 import PanelContainer from './panel/panel_container';
 import ColorPicker from './other/color_picker';
-
 
 // import { Link } from 'react-router-dom';
 import { default as contract } from 'truffle-contract';
@@ -18,8 +19,8 @@ class MainApplication extends React.Component {
     this.state = {
       pixels: {},
       instance: null,
-      scale: 0.7,
-      position: [-170,-90],
+      scale: 5.43,
+      position: [47,50],
       pixelArray: [],
       currentTab: 'draw',
       commentLink: ['','']
@@ -36,52 +37,55 @@ class MainApplication extends React.Component {
     this.updateCommentLink = this.updateCommentLink.bind(this)
     this.setColoringColor = this.setColoringColor.bind(this)
 
-
-    this.sideHeight = 720;
-    this.sideLength = 1280;
-
-
+    this.sideHeight = 100;
+    this.sideLength = 100;
   }
 
   createPixelArray(orderedPixels) {
     let result = [];
-    // console.log('hey')
-    // console.log(this.state.pixels);
-    console.log(orderedPixels);
-    for (var i = 0; i < this.sideHeight; i++) {
-      for (var j = 0; j < this.sideLength; j++) {
-        const currentPixel = this.state.pixels[(i*this.sideLength) + j];
-        let r;
-        let g;
-        let b;
-        let a;
-        if (currentPixel) {
-          r = currentPixel.red;
-          g = currentPixel.blue;
-          b = currentPixel.green;
-          a = 255;
-        } else {
-          r = Math.floor(Math.random() * 255);
-          g = Math.floor(Math.random() * 255);
-          b = Math.floor(Math.random() * 255);
-          a = Math.floor(Math.random() * 255);
-        }
-        let color = [r, g, b, a];
-        // var x = this.convertColorToUint32(color)
-        // var y = this.convertUint32ToColorArray(x)
-        // result.push([i, j, y]);
-        result.push([i, j, color]);
+
+    for (var i = 0; i < this.sideHeight * this.sideLength; i++) {
+      const currentPixel = orderedPixels[i];
+      let r;
+      let g;
+      let b;
+      let a;
+      if (currentPixel) {
+        var colors = this.convertUint32ToColorArray(currentPixel.color)
+        r = colors[0];
+        g = colors[1];
+        b = colors[2];
+        a = 255;
+      } else {
+        r = Math.floor(Math.random() * 255);
+        g = Math.floor(Math.random() * 255);
+        b = Math.floor(Math.random() * 255);
+        a = Math.floor(Math.random() * 255);
       }
+      let color = [r, g, b, a];
+      result.push([i, color]);
     }
     this.setState({'pixelArray': result})
   }
 
+  convertColorToUint32(colorArray) {
+    return (colorArray[0] << 24) + (colorArray[1] << 16) + (colorArray[2] << 8) + colorArray[3];
+  }
+
+  convertUint32ToColorArray(uint32) {
+    return [
+      uint32 >> 24 & 0xFF,
+      uint32 >> 16 & 0xFF,
+      uint32 >> 8 & 0xFF,
+      uint32 & 0xFF
+    ];
+  }
+
   componentWillMount(){
-    this.handleContract();
+    // this.handleContract();
   }
 
   componentDidMount() {
-    // window.setTimeout(this.createPixelArray, 1500)
     window.setTimeout(this.handleContract, 1500)
   }
 
@@ -104,9 +108,7 @@ class MainApplication extends React.Component {
     if (newProps.pixels && newProps.pixels.ids && this.state.pixels !== newProps.pixels) {
 
       let orderedPixels = {};
-      // console.log(newProps.pixels);
 
-      // REPLACE WITH NEW PROPS FROM CONTRACT
       for (var i = 0; i < newProps.pixels.ids.length; i++) {
         orderedPixels[i] = {};
         orderedPixels[i].color = newProps.pixels.colors[i];
@@ -115,51 +117,20 @@ class MainApplication extends React.Component {
         orderedPixels[i].buyable = newProps.pixels.buyable[i];
         orderedPixels[i].squatable = newProps.pixels.squatable[i];
       }
-      console.log(orderedPixels);
 
-      // this.setState({pixels: newProps.pixels});
       this.setState({pixels: orderedPixels});
       this.createPixelArray(orderedPixels);
     } else if (newProps.web3 !== undefined) {
       this.setState( {web3: newProps.web3})
-      this.handleContract()
+      // this.handleContract()
     }
   }
 
-  // convertColorToUint32(colorArray) {
-    // var red = 255;
-    // var green = 0;
-    // var blue = 0;
-    // var alpha = 1;
-    // var rgba = (red << 24) + (green << 16) + (blue << 8) + (alpha);
-    // console.log(rgba);
-    // return (colorArray[0] << 24) + (colorArray[1] << 16) + (colorArray[2] << 8) + colorArray[3];
-  // }
-
-  // convertUint32ToColorArray(uint32) {
-    // var pixelValue = rgba;
-    // var pixelData = {
-    //   red: pixelValue >> 24 & 0xFF,
-    //   green: pixelValue >> 16 & 0xFF,
-    //   blue: pixelValue >> 8 & 0xFF,
-    //   alpha: pixelValue & 0xFF
-    // };
-    // console.log(pixelData);
-    // return [
-    //   uint32 >> 24 & 0xFF,
-    //   uint32 >> 16 & 0xFF,
-    //   uint32 >> 8 & 0xFF,
-    //   uint32 & 0xFF
-    // ];
-  // }
-
   // Takes an array of arrays/strings/numbers
   buyPixels(pixels) {
-    // var j = this.convertColorToUint32([255,0,0,1])
-    // console.log(this.convertColorToUint32([255,0,0,1]));
-    // console.log(this.convertUint32ToColorArray(j));
-
     this.CanvasCore.deployed().then(instance => {
+
+      // THIS IS FAKE DATA TO TEST BUYING
       const pixelIdsArray = [];
       const colorsArray = [];
       for (var i = 0; i < 10; i++) {
@@ -170,6 +141,7 @@ class MainApplication extends React.Component {
       const rentable = true;
       const priceEther = 0.42;
       const totalCost = 1;
+      // END OF FAKE DATA
 
       const pixelsTesting = [ pixelIdsArray, colorsArray, priceEther, cooldown, rentable, totalCost ];
       return this.props.buyPixels(instance, this.props.accounts[0], pixelsTesting);
@@ -186,13 +158,13 @@ class MainApplication extends React.Component {
   pixelAddingSelection(pixel) {
     switch(this.state.currentTab) {
       case 'draw':
-        this.props.addPixelDraw(pixel);
+        this.props.addPixelDraw(pixel[0]);
         break;
       case 'buy':
-        this.props.addPixelBuy(pixel);
+        this.props.addPixelBuy(pixel[0]);
         break;
       case 'rent':
-        this.props.addPixelRent(pixel);
+        this.props.addPixelRent(pixel[0]);
         break;
       case 'manage':
         // this.props.addPixelManage(pixel);

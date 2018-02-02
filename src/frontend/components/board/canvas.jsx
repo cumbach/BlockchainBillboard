@@ -16,8 +16,8 @@ class Canvas extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.getPositions = this.getPositions.bind(this)
     this.comparePositions = this.comparePositions.bind(this)
-    this.sideLength = 1280;
-    this.sideHeight = 720;
+    this.sideLength = 100;
+    this.sideHeight = 100;
   }
 
   componentWillMount(){
@@ -45,17 +45,19 @@ class Canvas extends React.Component {
       const y = e.pageY - newRect.y;
       const clicked = {'Left': x,'Top': y, 'Width': 1,'Height': 1};
       const pos = self.getPositions(clicked);
+      console.log(pos);
 
       const scale = self.props.scale;
       for (let i = 0; i < self.props.pixelArray.length; i++) {
         let pixel = self.props.pixelArray[i];
-        let current = {'Left': pixel[0] * scale,'Top': pixel[1] * scale, 'Width': scale,'Height': scale}
+        let level = Math.floor(pixel[0] / self.sideLength);
+        let column = Math.floor(pixel[0] % self.sideHeight);
+        let current = {'Left': column * scale,'Top': level * scale, 'Width': scale,'Height': scale}
         let pos2 = self.getPositions(current);
         let horizontalMatch = self.comparePositions(pos[0], pos2[0]);
         let verticalMatch = self.comparePositions(pos[1], pos2[1]);
         if (horizontalMatch && verticalMatch) {
           self.props.addSelectedPixels(self.props.pixelArray[i])
-          console.log(self.props.pixelArray[i]);
           return;
         }
       }
@@ -88,7 +90,7 @@ class Canvas extends React.Component {
     for (var i = 0; i < this.props.pixelArray.length; i++) {
       for (var j = 0; j < 4; j++) {
         // Go through each pixel and add its component colors to the clamped array
-        clampedArray[(i*4) + j] = this.props.pixelArray[i][2][j];
+        clampedArray[(i*4) + j] = this.props.pixelArray[i][1][j];
       }
     }
 
