@@ -41,7 +41,7 @@ class ColorPicker extends React.Component {
 
   }
 
-  clickColor(e) {
+  clickColor(e) {    
     this.props.setColoringColor(e.target.style.background)
   }
 

@@ -98,8 +98,10 @@ class CameraController extends React.Component {
     return (
       <div className="camera-controller">
         <Canvas
-          pixelArray={this.props.pixelArray}
           pixels={this.props.pixels}
+          orderedPixels={this.props.orderedPixels}
+          selectedPixels={this.props.selectedPixels}
+          currentTab={this.props.currentTab}
           scale={this.props.scale}
           addSelectedPixels={this.props.addSelectedPixels}/>
       </div>

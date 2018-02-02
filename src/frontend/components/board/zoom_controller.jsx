@@ -84,8 +84,10 @@ class ZoomController extends React.Component {
     return (
       <div className="zoom-controller">
         <CameraController
-          pixelArray={this.props.pixelArray}
           pixels={this.props.pixels}
+          orderedPixels={this.props.orderedPixels}
+          selectedPixels={this.props.selectedPixels}
+          currentTab={this.props.currentTab}
           scale={this.props.scale}
           position={this.props.position}
           adjustCameraPosition={this.props.adjustCameraPosition}

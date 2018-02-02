@@ -18,18 +18,21 @@ class MainApplication extends React.Component {
     super(props);
     this.state = {
       pixels: {},
+      orderedPixels: {},
       instance: null,
       scale: 5.43,
       position: [47,50],
       pixelArray: [],
       currentTab: 'draw',
-      commentLink: ['','']
+      commentLink: ['',''],
+      coloringColor: [255, 0, 0, 0]
+
     };
 
     this.CanvasCore = contract(canvas_artifacts);
     this.handleContract = this.handleContract.bind(this)
     this.buyPixels = this.buyPixels.bind(this)
-    this.createPixelArray = this.createPixelArray.bind(this)
+    // this.createPixelArray = this.createPixelArray.bind(this)
     this.changeSelectedTab = this.changeSelectedTab.bind(this)
     this.pixelAddingSelection = this.pixelAddingSelection.bind(this)
     this.adjustScale = this.adjustScale.bind(this)
@@ -41,32 +44,32 @@ class MainApplication extends React.Component {
     this.sideLength = 100;
   }
 
-  createPixelArray(orderedPixels) {
-    let result = [];
-
-    for (var i = 0; i < this.sideHeight * this.sideLength; i++) {
-      const currentPixel = orderedPixels[i];
-      let r;
-      let g;
-      let b;
-      let a;
-      if (currentPixel) {
-        var colors = this.convertUint32ToColorArray(currentPixel.color)
-        r = colors[0];
-        g = colors[1];
-        b = colors[2];
-        a = 255;
-      } else {
-        r = Math.floor(Math.random() * 255);
-        g = Math.floor(Math.random() * 255);
-        b = Math.floor(Math.random() * 255);
-        a = Math.floor(Math.random() * 255);
-      }
-      let color = [r, g, b, a];
-      result.push([i, color]);
-    }
-    this.setState({'pixelArray': result})
-  }
+  // createPixelArray(orderedPixels) {
+  //   let result = [];
+  //
+  //   for (var i = 0; i < this.sideHeight * this.sideLength; i++) {
+  //     const currentPixel = orderedPixels[i];
+  //     let r;
+  //     let g;
+  //     let b;
+  //     let a;
+  //     if (currentPixel) {
+  //       var colors = this.convertUint32ToColorArray(currentPixel.color)
+  //       r = colors[0];
+  //       g = colors[1];
+  //       b = colors[2];
+  //       a = 255;
+  //     } else {
+  //       r = Math.floor(Math.random() * 255);
+  //       g = Math.floor(Math.random() * 255);
+  //       b = Math.floor(Math.random() * 255);
+  //       a = Math.floor(Math.random() * 255);
+  //     }
+  //     let color = [r, g, b, a];
+  //     result.push([i, color]);
+  //   }
+  //   this.setState({'pixelArray': result})
+  // }
 
   convertColorToUint32(colorArray) {
     return (colorArray[0] << 24) + (colorArray[1] << 16) + (colorArray[2] << 8) + colorArray[3];
@@ -118,8 +121,8 @@ class MainApplication extends React.Component {
         orderedPixels[i].squatable = newProps.pixels.squatable[i];
       }
 
-      this.setState({pixels: orderedPixels});
-      this.createPixelArray(orderedPixels);
+      this.setState({orderedPixels: orderedPixels});
+      // this.createPixelArray(orderedPixels);
     } else if (newProps.web3 !== undefined) {
       this.setState( {web3: newProps.web3})
       // this.handleContract()
@@ -156,15 +159,16 @@ class MainApplication extends React.Component {
   }
 
   pixelAddingSelection(pixel) {
+    var addPixelSelection = [pixel[0]].concat(this.state.coloringColor);
     switch(this.state.currentTab) {
       case 'draw':
-        this.props.addPixelDraw(pixel);
+        this.props.addPixelDraw(addPixelSelection);
         break;
       case 'buy':
-        this.props.addPixelBuy(pixel);
+        this.props.addPixelBuy(addPixelSelection);
         break;
       case 'rent':
-        this.props.addPixelRent(pixel);
+        this.props.addPixelRent(addPixelSelection);
         break;
       case 'manage':
         // this.props.addPixelManage(pixel);
@@ -198,7 +202,15 @@ class MainApplication extends React.Component {
   }
 
   setColoringColor(color) {
-    this.setState({'coloringColor': color})
+    var rgba = color.substring(4, color.length-1)
+             .replace(/ /g, '')
+             .split(',')
+             .map(function(el){return Number(el)});
+    rgba.push(255);
+    console.log(rgba);
+
+    const colorInt = rgba;
+    this.setState({'coloringColor': colorInt})
   }
 
   render() {
@@ -208,11 +220,13 @@ class MainApplication extends React.Component {
         <ZoomController
           key={`index-${Math.floor(Math.random() * 1000)}`}
           pixels={this.state.pixels}
-          pixelArray={this.state.pixelArray}
+          orderedPixels={this.state.orderedPixels}
           addSelectedPixels={this.pixelAddingSelection}
+          selectedPixels={this.props.selectedPixels}
           scale={this.state.scale}
           position={this.state.position}
           adjustCameraPosition={this.adjustCameraPosition}
+          currentTab={this.state.currentTab}
           adjustScale={this.adjustScale}/>
         <PanelContainer
           currentTab={this.state.currentTab}
