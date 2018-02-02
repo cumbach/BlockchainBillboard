@@ -1,0 +1,25 @@
+.bb-navbar {
+  position: relative;
+  height: 55px;
+  background: grey;
+  z-index: 1000;
+}
+
+.nav-item {
+  display: inline-block;
+  padding: 15px;
+}
+
+.bb-title {
+  font-size: 22px;
+}
+
+.how-to {
+  float:right;
+  font-size: 18px;
+}
+
+.about {
+  float: right;
+  font-size: 18px;
+}

@@ -1,5 +1,5 @@
 import {
-  RECEIVE_PIXELS,
+  RECEIVE_PIXELS
 } from '../actions/pixel_actions';
 // object merge function
 import merge from 'lodash/merge';

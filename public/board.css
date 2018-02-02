@@ -1,0 +1,23 @@
+body, html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.zoom-controller {
+  position:absolute;
+}
+
+.camera-controller {
+  position:relative;
+}
+
+canvas {
+  cursor: pointer;
+  -ms-interpolation-mode: bicubic;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges; /* so crisp */
+  image-rendering: pixelated;
+  background-color: white;
+  display: block;
+}
