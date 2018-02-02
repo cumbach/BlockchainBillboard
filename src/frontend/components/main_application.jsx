@@ -39,6 +39,7 @@ class MainApplication extends React.Component {
     this.adjustCameraPosition = this.adjustCameraPosition.bind(this)
     this.updateCommentLink = this.updateCommentLink.bind(this)
     this.setColoringColor = this.setColoringColor.bind(this)
+    this.convertColorToUint32 = this.convertColorToUint32.bind(this)
 
     this.sideHeight = 100;
     this.sideLength = 100;
@@ -113,12 +114,13 @@ class MainApplication extends React.Component {
       let orderedPixels = {};
 
       for (var i = 0; i < newProps.pixels.ids.length; i++) {
-        orderedPixels[i] = {};
-        orderedPixels[i].color = newProps.pixels.colors[i];
-        orderedPixels[i].price = newProps.pixels.prices[i];
-        orderedPixels[i].rentable = newProps.pixels.rentable[i];
-        orderedPixels[i].buyable = newProps.pixels.buyable[i];
-        orderedPixels[i].squatable = newProps.pixels.squatable[i];
+        let index = newProps.pixels.ids[i]
+        orderedPixels[index] = {};
+        orderedPixels[index].color = newProps.pixels.colors[i];
+        orderedPixels[index].price = newProps.pixels.prices[i];
+        orderedPixels[index].rentable = newProps.pixels.rentable[i];
+        orderedPixels[index].buyable = newProps.pixels.buyable[i];
+        orderedPixels[index].squatable = newProps.pixels.squatable[i];
       }
 
       this.setState({orderedPixels: orderedPixels});
@@ -130,16 +132,28 @@ class MainApplication extends React.Component {
   }
 
   // Takes an array of arrays/strings/numbers
-  buyPixels(pixels) {
+  buyPixels() {
+    const pixels = this.props.selectedPixels.buy;
+
     this.CanvasCore.deployed().then(instance => {
 
-      // THIS IS FAKE DATA TO TEST BUYING
       const pixelIdsArray = [];
       const colorsArray = [];
-      for (var i = 0; i < 10; i++) {
-        pixelIdsArray.push(i);
-        colorsArray.push(-5952982);
+
+      // THIS IS FAKE DATA TO TEST LARGE BUYS WITHOUT HAVING TO CLICK A BUNCH OF PIXELS
+      // for (var i = 0; i < 10; i++) {
+      //   pixelIdsArray.push(i);
+      //   colorsArray.push(-5952982);
+      // }
+
+      // REAL DATA
+      for (var i = 0; i < pixels.length; i++) {
+        let currentPixel = pixels[i];
+        pixelIdsArray.push(currentPixel[0]);
+        colorsArray.push(this.convertColorToUint32(currentPixel.slice(1,5)));
       }
+
+      // THIS IS FAKE DATA TO TEST BUYING
       const cooldown = 1;
       const rentable = true;
       const priceEther = 0.42;
