@@ -32,6 +32,7 @@ class MainApplication extends React.Component {
     this.CanvasCore = contract(canvas_artifacts);
     this.handleContract = this.handleContract.bind(this)
     this.buyPixels = this.buyPixels.bind(this)
+    this.rentPixels = this.rentPixels.bind(this)
     this.changeSelectedTab = this.changeSelectedTab.bind(this)
     this.pixelAddingSelection = this.pixelAddingSelection.bind(this)
     this.adjustScale = this.adjustScale.bind(this)
@@ -130,6 +131,32 @@ class MainApplication extends React.Component {
       return this.props.buyPixels(instance, this.props.accounts[0], pixelsTesting);
     }).then(transactionId => {
       console.log('buyPixels transaction posted (may take time to verify transaction)');
+    });
+  }
+
+  rentPixels() {
+    const pixels = this.props.selectedPixels.rent;
+
+    this.CanvasCore.deployed().then(instance => {
+
+      const pixelIdsArray = [];
+      const colorsArray = [];
+
+      for (var i = 0; i < pixels.length; i++) {
+        let currentPixel = pixels[i];
+        pixelIdsArray.push(currentPixel[0]);
+        colorsArray.push(this.convertColorToUint32(currentPixel.slice(1,5)));
+      }
+
+      // THIS IS FAKE DATA TO TEST RENTING
+      const cooldownWeeks = 1;
+      const totalCost = 1;
+      // END OF FAKE DATA
+
+      const pixelsTesting = [ pixelIdsArray, colorsArray, cooldownWeeks, totalCost ];
+      return this.props.rentPixels(instance, this.props.accounts[0], pixelsTesting);
+    }).then(transactionId => {
+      console.log('rentPixels transaction posted (may take time to verify transaction)');
     });
   }
 

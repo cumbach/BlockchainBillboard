@@ -42,6 +42,10 @@ export const buyPixels = (instance, account, pixels) => dispatch => (
   ProjectUtil.buyPixels(instance, account, pixels)
 );
 
+export const rentPixels = (instance, account, pixels) => dispatch => (
+  ProjectUtil.buyPixels(instance, account, pixels)
+);
+
 export const addSelectedPixelDraw = (selectedPixel) => dispatch => (
   dispatch(addDrawSelected(selectedPixel))
 );

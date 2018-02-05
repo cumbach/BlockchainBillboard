@@ -37,7 +37,8 @@ class PanelContainer extends React.Component {
               return <RentContainer
                         selectedPixels={this.props.selectedPixels.rent}
                         updateCommentLink={this.props.updateCommentLink}
-                        commentLink={this.props.commentLink}/>;
+                        commentLink={this.props.commentLink}
+                        rentPixels={this.props.rentPixels}/>;
             case 'manage':
               return <ManageContainer
                         selectedPixels={this.props.selectedPixels.manage}

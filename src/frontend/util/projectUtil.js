@@ -39,7 +39,7 @@ export const buyPixels = async (instance, account, pixels) => {
 
 // Calls on Contract to rentPixels
 export const rentPixels = async (instance, account, pixels) => {
-  const transactionId = await instance.rentPixels.sendTransaction(pixels[0], pixels[1], pixels[2], pixels[3], web3.toWei(pixels[4], 'ether'), {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876});
+  const transactionId = await instance.rentPixels.sendTransaction(pixels[0], pixels[1], pixels[2], {from: account, value: web3.toWei(pixels[3], 'ether'), gas: 6385876});
   return transactionId;
 };
 
