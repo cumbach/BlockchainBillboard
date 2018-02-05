@@ -6,6 +6,7 @@ import SelectedPixels from './panel_components/selected_pixels';
 import CommentLinkField from './panel_components/comment_link_field';
 import TabulatedCosts from './panel_components/tabulated_costs';
 import ActionButton from './panel_components/action_button';
+import CooldownDropdown from './panel_components/cooldown_dropdown';
 import SetNewPrice from './panel_components/set_new_price';
 
 class BuyContainer extends React.Component {
@@ -16,6 +17,7 @@ class BuyContainer extends React.Component {
         <SelectedPixels selectedPixels={this.props.selectedPixels}/>
         <CommentLinkField commentLink={this.props.commentLink} updateCommentLink={this.props.updateCommentLink}/>
         <SetNewPrice/>
+        <CooldownDropdown currentTab='Buy'/>
         <TabulatedCosts/>
         <ActionButton actionName='Buy' doAction={this.props.buyPixels}/>
       </div>
