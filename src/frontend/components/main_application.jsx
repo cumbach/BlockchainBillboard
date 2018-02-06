@@ -34,7 +34,7 @@ class MainApplication extends React.Component {
     this.buyPixels = this.buyPixels.bind(this)
     this.rentPixels = this.rentPixels.bind(this)
     this.changeSelectedTab = this.changeSelectedTab.bind(this)
-    this.pixelAddingSelection = this.pixelAddingSelection.bind(this)
+    this.addSelectedPixels = this.addSelectedPixels.bind(this)
     this.adjustScale = this.adjustScale.bind(this)
     this.adjustCameraPosition = this.adjustCameraPosition.bind(this)
     this.updateCommentLink = this.updateCommentLink.bind(this)
@@ -148,8 +148,8 @@ class MainApplication extends React.Component {
     this.setState({'currentTab': tab})
   }
 
-  pixelAddingSelection(pixel) {
-    var addPixelSelection = [pixel[0]].concat(this.state.coloringColor);
+  addSelectedPixels(pixelId) {
+    var addPixelSelection = [pixelId].concat(this.state.coloringColor);
     switch(this.state.currentTab) {
       case 'draw':
         this.props.addPixelDraw(addPixelSelection);
@@ -209,7 +209,7 @@ class MainApplication extends React.Component {
         <ZoomController
           key={`index-${Math.floor(Math.random() * 1000)}`}
           pixels={this.state.pixels}
-          addSelectedPixels={this.pixelAddingSelection}
+          addSelectedPixels={this.addSelectedPixels}
           selectedPixels={this.props.selectedPixels}
           scale={this.state.scale}
           position={this.state.position}

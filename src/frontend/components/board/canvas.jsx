@@ -61,7 +61,7 @@ class Canvas extends React.Component {
         let verticalMatch = self.comparePositions(pos[1], pos2[1]);
         if (horizontalMatch && verticalMatch) {
           if (self.isValidSelection(i)) {
-            self.props.addSelectedPixels(self.state.pixelArray[i])
+            self.props.addSelectedPixels(self.state.pixelArray[i][0])
           }
           return;
         }
