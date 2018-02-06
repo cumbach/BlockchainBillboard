@@ -19,7 +19,6 @@ class MainApplication extends React.Component {
     super(props);
     this.state = {
       pixels: {},
-      orderedPixels: {},
       instance: null,
       scale: 5.43,
       position: [47,50],
@@ -78,25 +77,6 @@ class MainApplication extends React.Component {
       })
     } else {
       window.setTimeout(this.handleContract, 1500)
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.pixels && newProps.pixels.ids && this.state.pixels !== newProps.pixels) {
-
-      let orderedPixels = {};
-
-      for (var i = 0; i < newProps.pixels.ids.length; i++) {
-        let index = newProps.pixels.ids[i]
-        orderedPixels[index] = {};
-        orderedPixels[index].color = newProps.pixels.colors[i];
-        orderedPixels[index].price = newProps.pixels.prices[i];
-        orderedPixels[index].rentable = newProps.pixels.rentable[i];
-        orderedPixels[index].buyable = newProps.pixels.buyable[i];
-        orderedPixels[index].squatable = newProps.pixels.squatable[i];
-      }
-
-      this.setState({orderedPixels: orderedPixels});
     }
   }
 
@@ -229,7 +209,6 @@ class MainApplication extends React.Component {
         <ZoomController
           key={`index-${Math.floor(Math.random() * 1000)}`}
           pixels={this.state.pixels}
-          orderedPixels={this.state.orderedPixels}
           addSelectedPixels={this.pixelAddingSelection}
           selectedPixels={this.props.selectedPixels}
           scale={this.state.scale}

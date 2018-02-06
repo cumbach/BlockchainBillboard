@@ -82,10 +82,10 @@ class Canvas extends React.Component {
   }
 
   isValidSelection(pixelId) {
-    return ((this.props.currentTab === 'buy' && !this.props.orderedPixels[pixelId]) ||
-            (this.props.currentTab === 'draw' && this.props.orderedPixels[pixelId].squatable) ||
-            (this.props.currentTab === 'rent' && this.props.orderedPixels[pixelId].rentable) ||
-            (this.props.currentTab === 'buy' && this.props.orderedPixels[pixelId].buyable));
+    return ((this.props.currentTab === 'buy' && !this.props.pixels[pixelId]) ||
+            (this.props.currentTab === 'draw' && this.props.pixels[pixelId].squatable) ||
+            (this.props.currentTab === 'rent' && this.props.pixels[pixelId].rentable) ||
+            (this.props.currentTab === 'buy' && this.props.pixels[pixelId].buyable));
   }
 
   animate() {
@@ -120,11 +120,11 @@ class Canvas extends React.Component {
     if (Object.keys(this.props.pixels).length === 0) {
       return;
     }
-    const orderedPixels = this.props.orderedPixels;
-
+    const receivedPixels = this.props.pixels;
     const orderedSelectedPixels = this.sortSelectedPixels();
+
     for (var i = 0; i < this.sideHeight * this.sideLength; i++) {
-      const currentPixel = orderedPixels[i];
+      const currentPixel = receivedPixels[i];
       const currentSelectedPixel = orderedSelectedPixels[i];
       let r;
       let g;

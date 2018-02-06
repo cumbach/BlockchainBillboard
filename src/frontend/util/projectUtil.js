@@ -5,14 +5,22 @@ var pixels = {};
 export const getCanvas = async (instance, account) => {
   var canvas = await instance.getCanvas(account, { from: account, gas: 6385876 });
 
-  pixels = {
-    ids: canvas[0].map(function(el){return parseInt(el, 10)}),
-    colors: canvas[1].map(function(el){return parseInt(el, 10)}),
-    prices: canvas[2].map(function(el){return parseInt(el, 10)}),
-    buyable: canvas[3],
-    rentable: canvas[4],
-    squatable: canvas[5]
-  };
+  const ids = canvas[0].map(function(el){return parseInt(el, 10)});
+  const colors = canvas[1].map(function(el){return parseInt(el, 10)});
+  const prices = canvas[2].map(function(el){return parseInt(el, 10)});
+  const buyable = canvas[3];
+  const rentable = canvas[4];
+  const squatable = canvas[5];
+
+  for (var i = 0; i < ids.length; i++) {
+    pixels[ids[i]] = {
+      color: colors[i],
+      price: prices[i],
+      buyable: buyable[i],
+      rentable: rentable[i],
+      squatable: squatable[i]
+    }
+  }
 
   return pixels;
 };
