@@ -14,8 +14,8 @@ class CooldownDropdown extends React.Component {
       return (
         <div>
         <input className='dropdown-input'></input>
-        <select>
-          <option value='weeks' selected>Weeks</option>
+        <select defaultValue='weeks'>
+          <option value='weeks'>Weeks</option>
           <option value='months'>Months</option>
         </select>
         </div>
@@ -23,13 +23,13 @@ class CooldownDropdown extends React.Component {
     } else if (this.props.currentTab === 'Rent') {
       return (
         <div>
-          <select>
-            <option value='one-week' selected>1</option>
+          <select defaultValue='one-week'>
+            <option value='one-week'>1</option>
             <option value='two-weeks'>2</option>
             <option value='three-weeks'>3</option>
           </select>
-          <select>
-            <option value='weeks' selected>Weeks</option>
+          <select defaultValue='weeks'>
+            <option value='weeks'>Weeks</option>
           </select>
         </div>
       );

@@ -112,3 +112,10 @@
   background: lightblue;
   border-radius: 5px;
 }
+
+
+/* SET NEW PRICE FIELD */
+
+.set-new-price-container {
+  margin: 10px;
+}

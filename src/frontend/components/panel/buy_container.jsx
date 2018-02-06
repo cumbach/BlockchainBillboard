@@ -7,6 +7,7 @@ import CommentLinkField from './panel_components/comment_link_field';
 import TabulatedCosts from './panel_components/tabulated_costs';
 import ActionButton from './panel_components/action_button';
 import CooldownDropdown from './panel_components/cooldown_dropdown';
+import RentableToggle from './panel_components/rentable_toggle';
 import SetNewPrice from './panel_components/set_new_price';
 
 class BuyContainer extends React.Component {
@@ -18,6 +19,7 @@ class BuyContainer extends React.Component {
         <CommentLinkField commentLink={this.props.commentLink} updateCommentLink={this.props.updateCommentLink}/>
         <SetNewPrice/>
         <CooldownDropdown currentTab='Buy'/>
+        <RentableToggle/>
         <TabulatedCosts/>
         <ActionButton actionName='Buy' doAction={this.props.buyPixels}/>
       </div>

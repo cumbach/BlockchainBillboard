@@ -6,6 +6,7 @@ import ZoomController from './board/zoom_controller';
 import NavBar from './other/nav_bar';
 import PanelContainer from './panel/panel_container';
 import ColorPicker from './other/color_picker';
+import $ from "jquery";
 
 // import { Link } from 'react-router-dom';
 import { default as contract } from 'truffle-contract';
@@ -23,7 +24,7 @@ class MainApplication extends React.Component {
       scale: 5.43,
       position: [47,50],
       pixelArray: [],
-      currentTab: 'draw',
+      currentTab: 'buy',
       commentLink: ['',''],
       coloringColor: [255, 0, 0, 255]
 
@@ -119,11 +120,13 @@ class MainApplication extends React.Component {
         pixelIdsArray.push(currentPixel[0]);
         colorsArray.push(this.convertColorToUint32(currentPixel.slice(1,5)));
       }
+      const priceEther = $('.new-price').val() ? $('.new-price').val() : 0;
+      const rentable = $('#allowRenting').prop('checked');;
 
       // THIS IS FAKE DATA TO TEST BUYING
       const cooldown = 1;
-      const rentable = true;
-      const priceEther = 0.42;
+      // const rentable = true;
+      // const priceEther = 0.42;
       const totalCost = 1;
       // END OF FAKE DATA
 

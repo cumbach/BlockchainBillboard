@@ -7,8 +7,9 @@ class SetNewPrice extends React.Component {
   render() {
     return (
       <div className='set-new-price-container'>
-        <input className='set-new-price'
-               placeholder='Set New Price'/>
+        <strong>Set New Price:</strong>
+        <input className='new-price'
+               placeholder='New Price (Ether)'/>
       </div>
     );
   }
