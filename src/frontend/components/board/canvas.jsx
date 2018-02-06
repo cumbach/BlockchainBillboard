@@ -19,6 +19,7 @@ class Canvas extends React.Component {
     this.comparePositions = this.comparePositions.bind(this)
     this.createPixelArray = this.createPixelArray.bind(this)
     this.convertUint32ToColorArray = this.convertUint32ToColorArray.bind(this)
+    this.isValidSelection = this.isValidSelection.bind(this)
     this.sideLength = 100;
     this.sideHeight = 100;
   }
@@ -59,7 +60,9 @@ class Canvas extends React.Component {
         let horizontalMatch = self.comparePositions(pos[0], pos2[0]);
         let verticalMatch = self.comparePositions(pos[1], pos2[1]);
         if (horizontalMatch && verticalMatch) {
-          self.props.addSelectedPixels(self.state.pixelArray[i])
+          if (self.isValidSelection(i)) {
+            self.props.addSelectedPixels(self.state.pixelArray[i])
+          }
           return;
         }
       }
@@ -76,6 +79,13 @@ class Canvas extends React.Component {
       let x1 = p1[0] < p2[0] ? p1 : p2;
       let x2 = p1[0] < p2[0] ? p2 : p1;
       return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
+  }
+
+  isValidSelection(pixelId) {
+    return ((this.props.currentTab === 'buy' && !this.props.orderedPixels[pixelId]) ||
+            (this.props.currentTab === 'draw' && this.props.orderedPixels[pixelId].squatable) ||
+            (this.props.currentTab === 'rent' && this.props.orderedPixels[pixelId].rentable) ||
+            (this.props.currentTab === 'buy' && this.props.orderedPixels[pixelId].buyable));
   }
 
   animate() {
@@ -111,6 +121,7 @@ class Canvas extends React.Component {
       return;
     }
     const orderedPixels = this.props.orderedPixels;
+
     const orderedSelectedPixels = this.sortSelectedPixels();
     for (var i = 0; i < this.sideHeight * this.sideLength; i++) {
       const currentPixel = orderedPixels[i];
@@ -125,11 +136,15 @@ class Canvas extends React.Component {
         b = currentSelectedPixel[2];
         a = currentSelectedPixel[3];
       } else if (currentPixel) {
-        var colors = this.convertUint32ToColorArray(currentPixel.color)
-        r = colors[0];
-        g = colors[1];
-        b = colors[2];
-        a = 255;
+        if ((this.props.currentTab === 'draw' && currentPixel.squatable) ||
+            (this.props.currentTab === 'rent' && currentPixel.rentable) ||
+            (this.props.currentTab === 'buy' && currentPixel.buyable)) {
+          var colors = this.convertUint32ToColorArray(currentPixel.color)
+          r = colors[0];
+          g = colors[1];
+          b = colors[2];
+          a = 255;
+        }
       } else {
         // r = Math.floor(Math.random() * 255);
         // g = Math.floor(Math.random() * 255);
