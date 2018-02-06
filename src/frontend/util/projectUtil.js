@@ -21,7 +21,6 @@ export const getCanvas = async (instance, account) => {
       squatable: squatable[i]
     }
   }
-
   return pixels;
 };
 // Calls getCanvas above
@@ -41,7 +40,7 @@ export const getPixels = async (instance, account) => {
 
 // Calls on Contract to buyPixels
 export const buyPixels = async (instance, account, pixels) => {
-  const transactionId = await instance.buyPixels.sendTransaction(pixels[0], pixels[1], pixels[2], pixels[3], pixels[4], {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876});
+  const transactionId = await instance.buyPixels.sendTransaction(pixels[0], pixels[1], web3.toWei(pixels[2]), pixels[3], pixels[4], {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876});
   return transactionId;
 };
 

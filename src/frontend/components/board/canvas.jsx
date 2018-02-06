@@ -82,6 +82,10 @@ class Canvas extends React.Component {
   }
 
   isValidSelection(pixelId) {
+    if ((this.props.currentTab === 'draw' || this.props.currentTab === 'rent') && !this.props.pixels[pixelId]) {
+      return false;
+    }
+
     return ((this.props.currentTab === 'buy' && !this.props.pixels[pixelId]) ||
             (this.props.currentTab === 'draw' && this.props.pixels[pixelId].squatable) ||
             (this.props.currentTab === 'rent' && this.props.pixels[pixelId].rentable) ||
