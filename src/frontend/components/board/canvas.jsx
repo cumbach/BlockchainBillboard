@@ -109,27 +109,17 @@ class Canvas extends React.Component {
     ];
   }
 
-  sortSelectedPixels() {
-    const sortedSelected = this.props.selectedPixels[this.props.currentTab];
-    const result = {};
-    for (var i = 0; i < sortedSelected.length; i++) {
-      let currentPixel = sortedSelected[i]
-      result[currentPixel[0]] = [currentPixel[1], currentPixel[2], currentPixel[3], 255];
-    }
-    return result;
-  }
-
   createPixelArray() {
     let result = [];
     if (Object.keys(this.props.pixels).length === 0) {
       return;
     }
     const receivedPixels = this.props.pixels;
-    const orderedSelectedPixels = this.sortSelectedPixels();
+    const selectedPixels = this.props.selectedPixels[this.props.currentTab];
 
     for (var i = 0; i < this.sideHeight * this.sideLength; i++) {
       const currentPixel = receivedPixels[i];
-      const currentSelectedPixel = orderedSelectedPixels[i];
+      const currentSelectedPixel = selectedPixels[i];
       let r;
       let g;
       let b;

@@ -16,10 +16,10 @@ class SelectedPixels extends React.Component {
   showSelectedPixels() {
     return (
       <div className='selected-pixels-container'>
-        {this.props.selectedPixels.map((pixel, i) => {
-          const colorArray = pixel.slice(1,5).join(',');
-          const color = 'rgba(' + colorArray + ')';
-          return <div key={i} className='color-selected' style={{'background': color}}></div>
+        {Object.keys(this.props.selectedPixels).map((pixel, i) => {
+            const colorArray = this.props.selectedPixels[pixel].slice(0,4).join(',');
+            const color = 'rgba(' + colorArray + ')';
+            return <div key={i} className='color-selected' style={{'background': color}}></div>
         })}
       </div>
     )
