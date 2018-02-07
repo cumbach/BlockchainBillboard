@@ -39,7 +39,7 @@ class CooldownDropdown extends React.Component {
   render() {
     return (
       <div className='cooldown-dropdown'>
-        Cooldown Time
+        <strong>Cooldown Time</strong>
         {this.displayCooldown()}
       </div>
     );
