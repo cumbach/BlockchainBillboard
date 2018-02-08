@@ -126,11 +126,12 @@ class MainApplication extends React.Component {
       const pixelIdsArray = [];
       const colorsArray = [];
 
-      for (var i = 0; i < pixels.length; i++) {
-        let currentPixel = pixels[i];
-        pixelIdsArray.push(currentPixel[0]);
-        colorsArray.push(this.convertColorToUint32(currentPixel.slice(1,5)));
+      for (var i = 0; i < Object.keys(pixels).length; i++) {
+        pixelIdsArray.push(Number(Object.keys(pixels)[i]));
+        let currentPixel = pixels[Object.keys(pixels)[i]];
+        colorsArray.push(this.convertColorToUint32(currentPixel));
       }
+
       const cooldownWeeks = Number($('.dropdown-weeks option:selected').text());
 
       // THIS IS FAKE DATA TO TEST RENTING
