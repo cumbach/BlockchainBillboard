@@ -16,6 +16,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   requestPixels: (instance, account) => dispatch(PixelActions.requestPixels(instance, account)),
   buyPixels: (instance, account, pixels) => dispatch(PixelActions.buyPixels(instance, account, pixels)),
+  rentPixels: (instance, account, pixels) => dispatch(PixelActions.rentPixels(instance, account, pixels)),
   addPixelDraw: (selectedPixel) => dispatch(PixelActions.addSelectedPixelDraw(selectedPixel)),
   addPixelBuy: (selectedPixel) => dispatch(PixelActions.addSelectedPixelBuy(selectedPixel)),
   addPixelRent: (selectedPixel) => dispatch(PixelActions.addSelectedPixelRent(selectedPixel))

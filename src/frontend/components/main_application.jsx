@@ -95,16 +95,17 @@ class MainApplication extends React.Component {
       // }
 
       // REAL DATA
-      for (var i = 0; i < pixels.length; i++) {
-        let currentPixel = pixels[i];
-        pixelIdsArray.push(currentPixel[0]);
-        colorsArray.push(this.convertColorToUint32(currentPixel.slice(1,5)));
+      for (var i = 0; i < Object.keys(pixels).length; i++) {
+        pixelIdsArray.push(Number(Object.keys(pixels)[i]));
+        let currentPixel = pixels[Object.keys(pixels)[i]];
+        colorsArray.push(this.convertColorToUint32(currentPixel));
       }
       const priceEther = $('.new-price').val() ? $('.new-price').val() : 0;
-      const rentable = $('#allowRenting').prop('checked');;
+      const rentable = $('#allowRenting').prop('checked');
+      const cooldown = $('.dropdown-input').val();
 
       // THIS IS FAKE DATA TO TEST BUYING
-      const cooldown = 1;
+      // const cooldown = 1;
       // const rentable = true;
       // const priceEther = 0.42;
       const totalCost = 1;
@@ -130,9 +131,10 @@ class MainApplication extends React.Component {
         pixelIdsArray.push(currentPixel[0]);
         colorsArray.push(this.convertColorToUint32(currentPixel.slice(1,5)));
       }
+      const cooldownWeeks = Number($('.dropdown-weeks option:selected').text());
 
       // THIS IS FAKE DATA TO TEST RENTING
-      const cooldownWeeks = 1;
+      // const cooldownWeeks = 1;
       const totalCost = 1;
       // END OF FAKE DATA
 
@@ -223,6 +225,7 @@ class MainApplication extends React.Component {
           commentLink={this.state.commentLink}
           updateCommentLink={this.updateCommentLink}
           buyPixels={this.buyPixels}
+          rentPixels={this.rentPixels}
         />
         <ColorPicker setColoringColor={this.setColoringColor}/>
       </div>
