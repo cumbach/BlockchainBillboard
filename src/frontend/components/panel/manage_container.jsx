@@ -11,7 +11,7 @@ class ManageContainer extends React.Component {
   render() {
     return (
       <div className='action-container manage-container'>
-        Manage
+        Manage (THIS NEEDS TO BE CONSIDERED MORE)
       </div>
     );
   }

@@ -7,7 +7,7 @@ class TabulatedCosts extends React.Component {
   render() {
     return (
       <div className='tabulated-costs'>
-        <strong>Tabulated Costs</strong>
+        <strong>Tabulated Costs (THIS ISNT SET UP YET)</strong>
       </div>
     );
   }

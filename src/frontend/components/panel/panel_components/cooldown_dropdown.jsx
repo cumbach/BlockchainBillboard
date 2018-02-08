@@ -7,13 +7,14 @@ class CooldownDropdown extends React.Component {
   constructor(props){
     super(props);
     this.displayCooldown = this.displayCooldown.bind(this);
+
   }
 
   displayCooldown() {
     if (this.props.currentTab === 'Buy') {
       return (
         <div>
-        <input className='dropdown-input'></input>
+        <input className='dropdown-input' defaultValue='1'></input>
         <select defaultValue='weeks'>
           <option value='weeks'>Weeks</option>
         </select>
