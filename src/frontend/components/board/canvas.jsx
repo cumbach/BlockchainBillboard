@@ -132,7 +132,8 @@ class Canvas extends React.Component {
       } else if (currentPixel) {
         if ((this.props.currentTab === 'draw' && currentPixel.squatable) ||
             (this.props.currentTab === 'rent' && currentPixel.rentable) ||
-            (this.props.currentTab === 'buy' && currentPixel.buyable)) {
+            (this.props.currentTab === 'buy' && currentPixel.buyable) ||
+            (this.props.currentTab === 'manage')) {
           var colors = this.convertUint32ToColorArray(currentPixel.color)
           r = colors[0];
           g = colors[1];
