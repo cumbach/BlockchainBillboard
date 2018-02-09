@@ -111,9 +111,6 @@ class Canvas extends React.Component {
 
   createPixelArray() {
     let result = [];
-    if (Object.keys(this.props.pixels).length === 0) {
-      return;
-    }
     const receivedPixels = this.props.pixels;
     const selectedPixels = this.props.selectedPixels[this.props.currentTab];
 
