@@ -40,8 +40,12 @@ export const getPixels = async (instance, account) => {
 
 // Calls on Contract to buyPixels
 export const buyPixels = async (instance, account, pixels) => {
-  const transactionId = await instance.buyPixels.sendTransaction(pixels[0], pixels[1], web3.toWei(pixels[2]), pixels[3], pixels[4], {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876});
-  return transactionId;
+  var batch = web3.createBatch();
+  var paginationLimit = 50;
+  // paginates buy requests if necessary
+  while (pixels[0].length) {
+    batch.add(instance.buyPixels.sendTransaction(pixels[0].splice(0, paginationLimit), pixels[1].splice(0, paginationLimit), web3.toWei(pixels[2]), pixels[3], pixels[4], {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876}));
+  }
 };
 
 // Calls on Contract to rentPixels
