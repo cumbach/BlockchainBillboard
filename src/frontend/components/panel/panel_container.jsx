@@ -32,6 +32,7 @@ class PanelContainer extends React.Component {
                         selectedPixels={this.props.selectedPixels.buy}
                         updateCommentLink={this.props.updateCommentLink}
                         commentLink={this.props.commentLink}
+                        transactionCosts={this.props.transactionCosts}
                         buyPixels={this.props.buyPixels}/>;
             case 'rent':
               return <RentContainer

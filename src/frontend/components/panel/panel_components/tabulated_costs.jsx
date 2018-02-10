@@ -5,9 +5,12 @@ import React from 'react';
 
 class TabulatedCosts extends React.Component {
   render() {
+    const fee = this.props.transactionCosts ? this.props.transactionCosts.buy : 0;
+
     return (
       <div className='tabulated-costs'>
-        <strong>Tabulated Costs (THIS ISNT SET UP YET)</strong>
+        <strong>Tabulated Costs</strong>
+        <div>Estimated Gas Fee: {fee}</div>
       </div>
     );
   }

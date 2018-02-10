@@ -20,7 +20,7 @@ class BuyContainer extends React.Component {
         <SetNewPrice/>
         <CooldownDropdown currentTab='Buy'/>
         <RentableToggle/>
-        <TabulatedCosts/>
+        <TabulatedCosts transactionCosts={this.props.transactionCosts}/>
         <ActionButton actionName='Buy' doAction={this.props.buyPixels}/>
       </div>
     );

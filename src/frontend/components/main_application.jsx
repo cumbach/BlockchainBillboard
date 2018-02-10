@@ -25,7 +25,8 @@ class MainApplication extends React.Component {
       pixelArray: [],
       currentTab: 'buy',
       commentLink: ['',''],
-      coloringColor: [255, 0, 0, 255]
+      coloringColor: [255, 0, 0, 255],
+      transactionCosts: {'buy': 0}
 
     };
 
@@ -40,6 +41,8 @@ class MainApplication extends React.Component {
     this.updateCommentLink = this.updateCommentLink.bind(this)
     this.setColoringColor = this.setColoringColor.bind(this)
     this.convertColorToUint32 = this.convertColorToUint32.bind(this)
+    this.estimateBuyTransactionCosts = this.estimateBuyTransactionCosts.bind(this)
+    this.createPixelsForBuy = this.createPixelsForBuy.bind(this)
 
     this.sideHeight = 100;
     this.sideLength = 100;
@@ -81,41 +84,44 @@ class MainApplication extends React.Component {
   }
 
   buyPixels() {
-    const pixels = this.props.selectedPixels.buy;
+    const pixels = this.createPixelsForBuy();
 
     this.CanvasCore.deployed().then(instance => {
-
-      const pixelIdsArray = [];
-      const colorsArray = [];
-
-      // THIS IS FAKE DATA TO TEST LARGE BUYS WITHOUT HAVING TO CLICK A BUNCH OF PIXELS
-      // for (var i = 0; i < 10; i++) {
-      //   pixelIdsArray.push(i);
-      //   colorsArray.push(-5952982);
-      // }
-
-      // REAL DATA
-      for (var i = 0; i < Object.keys(pixels).length; i++) {
-        pixelIdsArray.push(Number(Object.keys(pixels)[i]));
-        let currentPixel = pixels[Object.keys(pixels)[i]];
-        colorsArray.push(this.convertColorToUint32(currentPixel));
-      }
-      const priceEther = $('.new-price').val() ? $('.new-price').val() : 0;
-      const rentable = $('#allowRenting').prop('checked');
-      const cooldown = $('.dropdown-input').val();
-
-      // THIS IS FAKE DATA TO TEST BUYING
-      // const cooldown = 1;
-      // const rentable = true;
-      // const priceEther = 0.42;
-      const totalCost = 1;
-      // END OF FAKE DATA
-
-      const pixelsTesting = [ pixelIdsArray, colorsArray, priceEther, cooldown, rentable, totalCost ];
-      return this.props.buyPixels(instance, this.props.accounts[0], pixelsTesting);
+      return this.props.buyPixels(instance, this.props.accounts[0], pixels);
     }).then(transactionId => {
       console.log('buyPixels transaction posted (may take time to verify transaction)');
     });
+  }
+
+  createPixelsForBuy() {
+    let pixels = this.props.selectedPixels.buy;
+
+    const pixelIdsArray = [];
+    const colorsArray = [];
+
+    for (var i = 0; i < Object.keys(pixels).length; i++) {
+      pixelIdsArray.push(Number(Object.keys(pixels)[i]));
+      let currentPixel = pixels[Object.keys(pixels)[i]];
+      colorsArray.push(this.convertColorToUint32(currentPixel));
+    }
+    const priceEther = $('.new-price').val() ? $('.new-price').val() : 0;
+    const rentable = $('#allowRenting').prop('checked');
+    const cooldown = $('.dropdown-input').val();
+
+    // THIS IS FAKE DATA FOR NOW
+    const totalCost = 1;
+
+    return [ pixelIdsArray, colorsArray, priceEther, cooldown, rentable, totalCost ];
+  }
+
+  estimateBuyTransactionCosts(pixels) {
+    this.CanvasCore.deployed().then(instance => {
+      return instance.buyPixels.estimateGas(pixels[0], pixels[1], window.web3.toWei(pixels[2]), pixels[3], pixels[4], {from: this.props.accounts[0], value: window.web3.toWei(pixels[5], 'ether')});
+    }).then(estimate => {
+      this.setState({ transactionCosts: {'buy': estimate}})
+      // console.log(estimate);
+    });
+
   }
 
   rentPixels() {
@@ -159,6 +165,8 @@ class MainApplication extends React.Component {
         break;
       case 'buy':
         this.props.addPixelBuy(addPixelSelection);
+        const pixelBuyArray = this.createPixelsForBuy()
+        this.estimateBuyTransactionCosts(pixelBuyArray);
         break;
       case 'rent':
         this.props.addPixelRent(addPixelSelection);
@@ -227,6 +235,7 @@ class MainApplication extends React.Component {
           updateCommentLink={this.updateCommentLink}
           buyPixels={this.buyPixels}
           rentPixels={this.rentPixels}
+          transactionCosts={this.state.transactionCosts}
         />
         <ColorPicker setColoringColor={this.setColoringColor}/>
       </div>
