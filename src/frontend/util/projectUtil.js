@@ -24,15 +24,11 @@ export const getCanvas = async (instance, account) => {
   return pixels;
 };
 // Calls getCanvas above
-const fetchPixels = async (instance,account) => {
+export const getPixels = async (instance, account) => {
   const response = await getCanvas(instance, account);
   if (response) {
     pixels = response;
   }
-};
-// Calls fetchPixels above
-export const getPixels = async (instance, account) => {
-  await fetchPixels(instance, account);
   return pixels;
 };
 
