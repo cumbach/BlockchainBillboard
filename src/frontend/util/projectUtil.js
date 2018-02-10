@@ -44,7 +44,8 @@ export const buyPixels = async (instance, account, pixels) => {
   var paginationLimit = 50;
   // paginates buy requests if necessary
   while (pixels[0].length) {
-    batch.add(instance.buyPixels.sendTransaction(pixels[0].splice(0, paginationLimit), pixels[1].splice(0, paginationLimit), web3.toWei(pixels[2]), pixels[3], pixels[4], {from: account, value: web3.toWei(pixels[5], 'ether'), gas: 6385876}));
+    var gasEstimate = await instance.buyPixels.estimateGas(pixels[0].slice(0, paginationLimit), pixels[1].slice(0, paginationLimit), web3.toWei(pixels[2]), pixels[3], pixels[4], {from: account, value: web3.toWei(pixels[5], 'ether')});
+    batch.add(instance.buyPixels.sendTransaction(pixels[0].splice(0, paginationLimit), pixels[1].splice(0, paginationLimit), web3.toWei(pixels[2]), pixels[3], pixels[4], {from: account, value: web3.toWei(pixels[5], 'ether'), gas: gasEstimate}));
   }
 };
 
