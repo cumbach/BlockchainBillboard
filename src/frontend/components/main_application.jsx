@@ -159,18 +159,18 @@ class MainApplication extends React.Component {
   }
 
   addSelectedPixels(pixelId) {
-    var addPixelSelection = [pixelId].concat(this.state.coloringColor);
+    const currentTab = this.state.currentTab;
+    const addPixelSelection = [pixelId].concat(this.state.coloringColor);
+    this.props.addSelectedPixel(currentTab, addPixelSelection);
+
     switch(this.state.currentTab) {
       case 'draw':
-        this.props.addPixelDraw(addPixelSelection);
         break;
       case 'buy':
-        this.props.addPixelBuy(addPixelSelection);
         const pixelBuyArray = this.createPixelsForBuy()
         this.estimateBuyTransactionCosts(pixelBuyArray);
         break;
       case 'rent':
-        this.props.addPixelRent(addPixelSelection);
         break;
       case 'manage':
         // this.props.addPixelManage(pixel);
