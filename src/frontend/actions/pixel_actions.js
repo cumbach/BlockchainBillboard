@@ -5,7 +5,7 @@ export const RECEIVE_PIXELS = "RECEIVE_PIXELS";
 export const ADD_SELECTED_PIXELS_DRAW = "ADD_SELECTED_PIXELS_DRAW";
 export const ADD_SELECTED_PIXELS_BUY = "ADD_SELECTED_PIXELS_BUY";
 export const ADD_SELECTED_PIXELS_RENT = "ADD_SELECTED_PIXELS_RENT";
-
+export const REMOVE_SELECTED_PIXEL = "REMOVE_SELECTED_PIXEL";
 
 export const receivePixels = pixels => ({
   type: RECEIVE_PIXELS,
@@ -32,6 +32,13 @@ export const addRentSelected = selectedPixelsRent => ({
   selectedPixelsRent
 });
 
+export const removeSelectedPixelAction = (currentTab, selectedPixelToRemove) => ({
+  type: REMOVE_SELECTED_PIXEL,
+  currentTab,
+  selectedPixelToRemove,
+});
+
+
 
 export const requestPixels = (instance, account) => dispatch => (
   ProjectUtil.getPixels(instance, account)
@@ -56,4 +63,8 @@ export const addSelectedPixelBuy = (selectedPixel) => dispatch => (
 
 export const addSelectedPixelRent = (selectedPixel) => dispatch => (
   dispatch(addRentSelected(selectedPixel))
+);
+
+export const removeSelectedPixel = (currentTab, selectedPixel) => dispatch => (
+  dispatch(removeSelectedPixelAction(currentTab, selectedPixel))
 );

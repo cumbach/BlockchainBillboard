@@ -15,7 +15,7 @@ class BuyContainer extends React.Component {
     return (
       <div className='action-container buy-container'>
         BUY
-        <SelectedPixels selectedPixels={this.props.selectedPixels}/>
+        <SelectedPixels removeSelectedPixel={this.props.removeSelectedPixel} selectedPixels={this.props.selectedPixels}/>
         <CommentLinkField commentLink={this.props.commentLink} updateCommentLink={this.props.updateCommentLink}/>
         <SetNewPrice/>
         <CooldownDropdown currentTab='Buy'/>

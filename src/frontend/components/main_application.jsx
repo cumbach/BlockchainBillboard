@@ -43,6 +43,7 @@ class MainApplication extends React.Component {
     this.convertColorToUint32 = this.convertColorToUint32.bind(this)
     this.estimateBuyTransactionCosts = this.estimateBuyTransactionCosts.bind(this)
     this.createPixelsForBuy = this.createPixelsForBuy.bind(this)
+    this.removeSelectedPixel = this.removeSelectedPixel.bind(this)
 
     this.sideHeight = 100;
     this.sideLength = 100;
@@ -213,6 +214,11 @@ class MainApplication extends React.Component {
     this.setState({'coloringColor': colorInt})
   }
 
+  removeSelectedPixel(pixel) {
+    const tab = this.state.currentTab;
+    this.props.removeSelectedPixel(tab, pixel);
+  }
+
   render() {
     return (
       <div className="canvas-container">
@@ -236,6 +242,7 @@ class MainApplication extends React.Component {
           buyPixels={this.buyPixels}
           rentPixels={this.rentPixels}
           transactionCosts={this.state.transactionCosts}
+          removeSelectedPixel={this.removeSelectedPixel}
         />
         <ColorPicker setColoringColor={this.setColoringColor}/>
       </div>

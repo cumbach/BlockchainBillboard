@@ -13,7 +13,7 @@ class RentContainer extends React.Component {
     return (
       <div className='action-container rent-container'>
         RENT
-        <SelectedPixels selectedPixels={this.props.selectedPixels}/>
+        <SelectedPixels removeSelectedPixel={this.props.removeSelectedPixel} selectedPixels={this.props.selectedPixels}/>
         <CommentLinkField commentLink={this.props.commentLink} updateCommentLink={this.props.updateCommentLink}/>
         <CooldownDropdown currentTab='Rent'/>
         <TabulatedCosts/>

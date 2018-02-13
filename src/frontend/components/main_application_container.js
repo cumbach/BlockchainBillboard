@@ -19,7 +19,8 @@ const mapDispatchToProps = dispatch => ({
   rentPixels: (instance, account, pixels) => dispatch(PixelActions.rentPixels(instance, account, pixels)),
   addPixelDraw: (selectedPixel) => dispatch(PixelActions.addSelectedPixelDraw(selectedPixel)),
   addPixelBuy: (selectedPixel) => dispatch(PixelActions.addSelectedPixelBuy(selectedPixel)),
-  addPixelRent: (selectedPixel) => dispatch(PixelActions.addSelectedPixelRent(selectedPixel))
+  addPixelRent: (selectedPixel) => dispatch(PixelActions.addSelectedPixelRent(selectedPixel)),
+  removeSelectedPixel: (tab, selectedPixel) => dispatch(PixelActions.removeSelectedPixel(tab, selectedPixel))
 });
 
 export default withRouter(connect(

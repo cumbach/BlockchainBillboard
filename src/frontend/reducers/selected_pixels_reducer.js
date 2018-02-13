@@ -1,7 +1,8 @@
 import {
   ADD_SELECTED_PIXELS_DRAW,
   ADD_SELECTED_PIXELS_BUY,
-  ADD_SELECTED_PIXELS_RENT
+  ADD_SELECTED_PIXELS_RENT,
+  REMOVE_SELECTED_PIXEL
 } from '../actions/pixel_actions';
 // object merge function
 // import merge from 'lodash/merge';
@@ -22,6 +23,13 @@ const pixelsReducer = (oldState = {'draw':{},'buy':{}, 'rent':{}, 'manage': {}},
     case ADD_SELECTED_PIXELS_RENT:
       newState = Object.assign({}, oldState);
       newState.rent[action.selectedPixelsRent[0]] = action.selectedPixelsRent.slice(1,5);
+      return newState;
+    case REMOVE_SELECTED_PIXEL:
+      const tab = action.currentTab;
+      const pixel = action.selectedPixelToRemove;
+      newState = Object.assign({}, oldState);
+      const currentTabPixels = newState[tab];
+      delete currentTabPixels[pixel];
       return newState;
     default:
       return oldState;

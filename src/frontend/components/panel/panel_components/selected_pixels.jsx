@@ -12,6 +12,9 @@ class SelectedPixels extends React.Component {
     this.showSelectedPixels = this.showSelectedPixels.bind(this);
 
   }
+  removePixel(pixel) {
+    this.props.removeSelectedPixel(pixel);
+  }
 
   showSelectedPixels() {
     return (
@@ -19,7 +22,7 @@ class SelectedPixels extends React.Component {
         {Object.keys(this.props.selectedPixels).map((pixel, i) => {
             const colorArray = this.props.selectedPixels[pixel].slice(0,4).join(',');
             const color = 'rgba(' + colorArray + ')';
-            return <div key={i} className='color-selected' style={{'background': color}}></div>
+            return <div onClick={this.removePixel.bind(this, pixel)} key={i} className='color-selected' style={{'background': color}}></div>
         })}
       </div>
     )

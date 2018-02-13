@@ -26,25 +26,29 @@ class PanelContainer extends React.Component {
               return <DrawContainer
                         selectedPixels={this.props.selectedPixels.draw}
                         updateCommentLink={this.props.updateCommentLink}
-                        commentLink={this.props.commentLink}/>;
+                        commentLink={this.props.commentLink}
+                        removeSelectedPixel={this.props.removeSelectedPixel}/>;
             case 'buy':
               return <BuyContainer
                         selectedPixels={this.props.selectedPixels.buy}
                         updateCommentLink={this.props.updateCommentLink}
                         commentLink={this.props.commentLink}
                         transactionCosts={this.props.transactionCosts}
-                        buyPixels={this.props.buyPixels}/>;
+                        buyPixels={this.props.buyPixels}
+                        removeSelectedPixel={this.props.removeSelectedPixel}/>;
             case 'rent':
               return <RentContainer
                         selectedPixels={this.props.selectedPixels.rent}
                         updateCommentLink={this.props.updateCommentLink}
                         commentLink={this.props.commentLink}
-                        rentPixels={this.props.rentPixels}/>;
+                        rentPixels={this.props.rentPixels}
+                        removeSelectedPixel={this.props.removeSelectedPixel}/>;
             case 'manage':
               return <ManageContainer
                         selectedPixels={this.props.selectedPixels.manage}
                         updateCommentLink={this.props.updateCommentLink}
-                        commentLink={this.props.commentLink}/>;
+                        commentLink={this.props.commentLink}
+                        removeSelectedPixel={this.props.removeSelectedPixel}/>;
             default:
             return null;
           }
