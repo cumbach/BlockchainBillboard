@@ -180,6 +180,27 @@ class MainApplication extends React.Component {
     }
   }
 
+  removeSelectedPixel(pixel) {
+    const tab = this.state.currentTab;
+    this.props.removeSelectedPixel(tab, pixel);
+
+    switch(this.state.currentTab) {
+      case 'draw':
+        break;
+      case 'buy':
+        const pixelBuyArray = this.createPixelsForBuy()
+        this.estimateBuyTransactionCosts(pixelBuyArray);
+        break;
+      case 'rent':
+        break;
+      case 'manage':
+        // this.props.addPixelManage(pixel);
+        break;
+      default:
+      return null;
+    }
+  }
+
   adjustScale(multiplier) {
     this.setState({'scale': this.state.scale * multiplier});
   }
@@ -212,11 +233,6 @@ class MainApplication extends React.Component {
 
     const colorInt = rgba;
     this.setState({'coloringColor': colorInt})
-  }
-
-  removeSelectedPixel(pixel) {
-    const tab = this.state.currentTab;
-    this.props.removeSelectedPixel(tab, pixel);
   }
 
   render() {
